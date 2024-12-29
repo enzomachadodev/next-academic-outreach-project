@@ -1,0 +1,9 @@
+services:
+  postgres:
+    container_name: conexao_dev_db
+    image: postgres
+    environment:
+      - POSTGRES_USER=enzomachadodev
+      - POSTGRES_PASSWORD=enzomachadodev
+    ports:
+      - 5432:5432
