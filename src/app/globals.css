@@ -105,4 +105,12 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  .heading {
+    @apply my-5 max-w-5xl text-center text-[36px] font-medium leading-[46px] sm:text-[54px] sm:leading-[64px];
+  }
+
+  .sub-heading {
+    @apply max-w-2xl break-words text-center text-[20px] font-light;
+  }
 }
