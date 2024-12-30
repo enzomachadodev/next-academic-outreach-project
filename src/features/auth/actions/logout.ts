@@ -13,7 +13,7 @@ export const logout = async () => {
       headers: await headers(),
     });
 
-    return redirect("/auth/login");
+    return redirect("/");
   } catch (error) {
     return {
       error: getErrorMessage(error),
