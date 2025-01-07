@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/layout/navbar";
+import { Header } from "@/components/layout/header";
 
 const Layout = ({
   children,
@@ -6,10 +6,10 @@ const Layout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <div>
-      <Navbar />
+    <>
+      <Header />
       {children}
-    </div>
+    </>
   );
 };
 

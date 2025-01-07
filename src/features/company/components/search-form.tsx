@@ -11,7 +11,7 @@ export const SearchForm = ({ query }: SearchFormProps) => {
   return (
     <Form
       id="search-form"
-      action="/empreendedores"
+      action="/empresas"
       scroll={false}
       className="mt-8 flex min-h-[80px] w-full max-w-3xl flex-row items-center gap-5 rounded-[80px] border-[5px] border-foreground bg-primary-foreground pl-5 pr-3 text-[24px] text-foreground"
     >

@@ -1,6 +1,6 @@
 import { CircleCheck, TriangleAlert } from "lucide-react";
 
-import { cn } from "@/lib/cn";
+import { cn } from "@/lib/utils";
 
 interface FormStatusProps {
   type: "error" | "success";

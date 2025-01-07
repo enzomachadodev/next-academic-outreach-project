@@ -2,7 +2,7 @@ import { LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-import { currentUser } from "@/features/auth/actions/current-user";
+import { getCurrentUser } from "@/features/auth/actions/get-current-user";
 import { logout } from "@/features/auth/actions/logout";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -15,16 +15,21 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-export const Navbar = async () => {
-  const user = await currentUser();
+export const Header = async () => {
+  const user = await getCurrentUser();
+
   return (
-    <div className="bg-white px-5 py-3 shadow-sm">
-      <nav className="flex items-center justify-between">
+    <header className="bg-white px-5 py-3 shadow-sm">
+      <div className="relative flex w-full items-center justify-between">
         <Link href="/" className="text-2xl font-bold">
           LOGO
         </Link>
-        <div className="flex items-center gap-5 text-foreground">
-          <Link href="/empreendedores">Encontrar Empreendedores</Link>
+        <nav className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-between gap-4">
+          <Link href="/">Início</Link>
+          <Link href="/feed">Feed</Link>
+          <Link href="/empresas">Empresas</Link>
+        </nav>
+        <div>
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="rounded-full outline-none">
@@ -35,7 +40,7 @@ export const Navbar = async () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link href={`/user/${user.id}`}>
+                  <Link href={`/perfil`}>
                     <User />
                     Perfil
                   </Link>
@@ -64,7 +69,7 @@ export const Navbar = async () => {
             </Button>
           )}
         </div>
-      </nav>
-    </div>
+      </div>
+    </header>
   );
 };
