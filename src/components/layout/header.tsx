@@ -19,15 +19,21 @@ export const Header = async () => {
   const user = await getCurrentUser();
 
   return (
-    <header className="bg-white px-5 py-3 shadow-sm">
+    <header className="fixed left-0 top-0 z-10 w-full bg-background px-5 py-3 shadow-sm">
       <div className="relative flex w-full items-center justify-between">
         <Link href="/" className="text-2xl font-bold">
           LOGO
         </Link>
         <nav className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-between gap-4">
-          <Link href="/">Início</Link>
-          <Link href="/feed">Feed</Link>
-          <Link href="/empresas">Empresas</Link>
+          <Link
+            href="/"
+            className="font-medium hover:text-primary hover:underline"
+          >
+            Feed
+          </Link>
+          <Link href="/empresas" className="hover:text-primary hover:underline">
+            Empresas
+          </Link>
         </nav>
         <div>
           {user ? (
