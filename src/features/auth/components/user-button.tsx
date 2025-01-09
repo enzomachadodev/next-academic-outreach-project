@@ -1,6 +1,5 @@
 "use client";
 
-import { User } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   Check,
@@ -14,7 +13,6 @@ import {
 import Link from "next/link";
 import { useTheme } from "next-themes";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,13 +27,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { logout } from "../actions/logout";
+import { useSession } from "../lib/auth-client";
+import { UserAvatar } from "./user-avatar";
 
 interface UserButtonProps {
-  user: User;
   className?: string;
 }
 
-export const UserButton = ({ user, className }: UserButtonProps) => {
+export const UserButton = ({ className }: UserButtonProps) => {
+  const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
 
   const queryClient = useQueryClient();
@@ -49,14 +49,14 @@ export const UserButton = ({ user, className }: UserButtonProps) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="outline-none">
         <button className={className}>
-          <Avatar className="size-10">
-            <AvatarImage src={user.image || ""} alt={user.name || ""} />
-            <AvatarFallback>{user.name[0]}</AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            name={session?.user.name || ""}
+            image={session?.user.image || ""}
+          />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Logado como {user?.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>Logado como {session?.user.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href="/profile">
           <DropdownMenuItem>

@@ -8,7 +8,7 @@ const Layout = ({
   return (
     <>
       <Header />
-      {children}
+      <div className="wrapper flex flex-grow pt-8">{children}</div>
     </>
   );
 };
