@@ -1,14 +1,13 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 
 import { ReactQueryProvider } from "@/components/providers/react-query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
-const fontSans = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
+const fontSans = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
 });
