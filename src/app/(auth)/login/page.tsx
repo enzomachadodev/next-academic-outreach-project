@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { LoginForm } from "@/features/auth/components/login-form";
 
-const LoginPage = () => {
+const Login = () => {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -34,4 +34,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;

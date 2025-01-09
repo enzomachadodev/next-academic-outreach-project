@@ -40,18 +40,16 @@ export const RegisterForm = () => {
     setError("");
     setSuccess("");
 
-    startTransition(() => {
-      register(values).then((data) => {
+    startTransition(async () => {
+      await register(values).then((data) => {
         if (data?.error) {
-          return setError(data?.error);
+          setError(data?.error);
+          return;
         }
         if (data?.success) {
           form.reset();
           setSuccess(data?.success);
-
-          setTimeout(() => {
-            return redirect("/");
-          }, 2000);
+          redirect("/");
         }
       });
     });
@@ -128,8 +126,8 @@ export const RegisterForm = () => {
           </Button>
         </form>
       </Form>
-      <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-        <span className="relative z-10 bg-background px-2 text-muted-foreground">
+      <div className="relative h-px bg-muted-foreground text-center text-sm">
+        <span className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 bg-muted px-2 text-muted-foreground">
           Ou continue com
         </span>
       </div>
@@ -145,7 +143,7 @@ export const RegisterForm = () => {
       </Button>
       <div className="text-center text-sm">
         Já possui uma conta?{" "}
-        <Link href="/auth/register" className="underline underline-offset-4">
+        <Link href="/login" className="underline underline-offset-4">
           Faça login
         </Link>
       </div>
