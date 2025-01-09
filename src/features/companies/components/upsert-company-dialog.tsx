@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { upsertCompany } from "../actions/upsert-company";
-import { UpsertCompanySchema, upsertCompanySchema } from "../schemas";
+import { UpsertCompanySchema, upsertCompanySchema } from "../lib/validation";
 
 interface UpsertCompanyDialogProps {
   isOpen: boolean;

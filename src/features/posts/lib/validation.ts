@@ -1,10 +1,12 @@
 import { MediaType } from "@prisma/client";
 import { z } from "zod";
 
+import { stringSchema, urlSchema } from "@/lib/validation";
+
 export const createPostSchema = z
   .object({
-    content: z.string().min(1, "Por favor, preencha o campo acima"),
-    media: z.string().url("O campo deve ser uma URL válida").optional(),
+    content: stringSchema,
+    media: urlSchema.optional(),
     mediaType: z.nativeEnum(MediaType).optional(),
   })
   .refine(

@@ -3,7 +3,7 @@
 import { getErrorMessage } from "@/lib/handle-error";
 
 import { auth } from "../lib/auth";
-import { LoginSchema, loginSchema } from "../schemas";
+import { LoginSchema, loginSchema } from "../lib/validation";
 
 export const login = async (input: LoginSchema) => {
   try {

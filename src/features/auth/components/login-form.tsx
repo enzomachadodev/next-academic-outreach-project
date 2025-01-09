@@ -19,7 +19,7 @@ import { FormStatus } from "@/components/ui/form-status";
 import { Input } from "@/components/ui/input";
 
 import { login } from "../actions/login";
-import { LoginSchema, loginSchema } from "../schemas";
+import { LoginSchema, loginSchema } from "../lib/validation";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();

@@ -1,6 +1,6 @@
-import { SearchForm } from "@/features/company/components/search-form";
+import { SearchForm } from "@/features/companies/components/search-form";
 
-const EmpreendedoresPage = async ({
+const Companies = async ({
   searchParams,
 }: {
   searchParams: Promise<{ query?: string }>;
@@ -33,4 +33,4 @@ const EmpreendedoresPage = async ({
   );
 };
 
-export default EmpreendedoresPage;
+export default Companies;

@@ -3,7 +3,7 @@
 import { getErrorMessage } from "@/lib/handle-error";
 
 import { auth } from "../lib/auth";
-import { RegisterSchema, registerSchema } from "../schemas";
+import { RegisterSchema, registerSchema } from "../lib/validation";
 
 export const register = async (input: RegisterSchema) => {
   try {

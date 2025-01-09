@@ -4,7 +4,7 @@ import { db } from "@/db";
 import { getSession } from "@/features/auth/actions/get-session";
 import { getErrorMessage } from "@/lib/handle-error";
 
-import { UpsertCompanySchema, upsertCompanySchema } from "../schemas";
+import { UpsertCompanySchema, upsertCompanySchema } from "../lib/validation";
 
 export const upsertCompany = async (input: UpsertCompanySchema) => {
   const session = await getSession();

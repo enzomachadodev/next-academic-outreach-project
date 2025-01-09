@@ -1,12 +1,14 @@
 import { z } from "zod";
 
+import { idSchema, stringSchema } from "@/lib/validation";
+
 export const upsertCompanySchema = z.object({
-  companyId: z.string().cuid().optional(),
-  name: z.string().min(1, "Insira um nome"),
-  description: z.string().min(1, "Insira um nome"),
+  companyId: idSchema.optional(),
+  name: stringSchema,
+  description: stringSchema,
   image: z.string().url({ message: "Insira uma url válida" }).optional(),
-  instagram: z.string().optional(),
-  website: z.string().optional(),
+  instagram: stringSchema.optional(),
+  website: stringSchema.optional(),
 });
 
 export type UpsertCompanySchema = z.infer<typeof upsertCompanySchema>;

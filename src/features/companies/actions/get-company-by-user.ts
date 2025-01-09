@@ -3,7 +3,7 @@
 import { Company } from "@prisma/client";
 
 import { db } from "@/db";
-import { idSchema } from "@/schemas";
+import { idSchema } from "@/lib/validation";
 import { ActionResponse } from "@/types";
 
 export const getCompanyByUser = async (
