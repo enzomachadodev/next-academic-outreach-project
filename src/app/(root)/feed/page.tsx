@@ -13,7 +13,7 @@ const Feed = async () => {
 
   return (
     <main className="grid w-full grid-cols-1 gap-8 border border-green-500 lg:grid-cols-3">
-      <div className="col-span-1 w-full lg:col-span-2">
+      <div className="col-span-1 flex w-full flex-col gap-4 sm:gap-8 lg:col-span-2">
         <PostEditor />
         {posts.map((post) => (
           <PostCard key={post.id} post={post} />

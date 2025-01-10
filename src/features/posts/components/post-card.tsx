@@ -17,36 +17,36 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ post }: PostCardProps) => {
-  const { content } = post;
+  const { id, content, user, createdAt } = post;
 
   return (
     <article className="w-full">
       <Card>
         <CardHeader className="flex-row items-center gap-4">
-          <Link href={`/profile/${post.user.name}`}>
+          <Link href={`/profile/${user.username}`}>
             <UserAvatar
-              name={post.user.name}
-              image={post.user.image || ""}
+              name={user.name}
+              image={user.image || ""}
               className="size-12"
             />
           </Link>
-          <div className="">
-            <Link href={`/users/${post.user.name}`}>
-              <CardTitle className="hover:underline">
-                {post.user.name}
-              </CardTitle>
+          <div className="space-y-1">
+            <Link href={`/users/${user.username}`}>
+              <CardTitle className="hover:underline">{user.name}</CardTitle>
             </Link>
             <Link
-              href={`/posts/${post.id}`}
+              href={`/posts/${id}`}
               className="block text-sm text-muted-foreground hover:underline"
               suppressHydrationWarning
             >
-              {formatRelativeDate(post.createdAt)}
+              {formatRelativeDate(createdAt)}
             </Link>
           </div>
         </CardHeader>
         <CardContent>
-          <article>{content}</article>
+          <article className="whitespace-pre-line break-words">
+            {content}
+          </article>
         </CardContent>
         <CardFooter>
           <p>Card Footer</p>
