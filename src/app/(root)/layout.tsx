@@ -6,10 +6,10 @@ const Layout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <div className="wrapper flex flex-grow pt-8">{children}</div>
-    </>
+      <div className="wrapper min-h-screen pt-8">{children}</div>
+    </div>
   );
 };
 

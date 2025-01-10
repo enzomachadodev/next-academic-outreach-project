@@ -72,7 +72,7 @@
   }
 
   body {
-    @apply overscroll-none bg-muted font-sans text-foreground antialiased;
+    @apply overscroll-none bg-background font-sans text-foreground antialiased;
     /* font-feature-settings: "rlig" 1, "calt" 1; */
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
