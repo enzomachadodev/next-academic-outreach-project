@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { UserAvatar } from "@/features/auth/components/user-avatar";
+import { UserAvatar } from "@/features/users/components/user-avatar";
 import { formatRelativeDate } from "@/lib/utils";
 
 import { PostData } from "../lib/types";

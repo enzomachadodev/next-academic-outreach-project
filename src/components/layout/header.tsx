@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { UserButton } from "@/features/auth/components/user-button";
+import { UserButton } from "@/features/users/components/user-button";
 
 import { SearchBar } from "./search-bar";
 

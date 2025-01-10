@@ -6,8 +6,8 @@ import StarterKit from "@tiptap/starter-kit";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { UserAvatar } from "@/features/auth/components/user-avatar";
 import { useSession } from "@/features/auth/lib/auth-client";
+import { UserAvatar } from "@/features/users/components/user-avatar";
 
 import { submitPost } from "../actions/submit-post";
 

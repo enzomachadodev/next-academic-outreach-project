@@ -25,9 +25,9 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { logout } from "@/features/auth/actions/logout";
+import { useSession } from "@/features/auth/lib/auth-client";
 
-import { logout } from "../actions/logout";
-import { useSession } from "../lib/auth-client";
 import { UserAvatar } from "./user-avatar";
 
 interface UserButtonProps {
