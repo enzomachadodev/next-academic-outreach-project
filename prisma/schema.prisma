@@ -7,23 +7,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id            String   @id @default(cuid())
-  name          String
-  email         String   @unique
-  emailVerified Boolean  @default(false)
-  image         String?
-  bio           String?
-  pixKey        String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+enum MediaType {
+  IMAGE
+  VIDEO
+}
 
-  sessions  Session[]
-  accounts  Account[]
-  companies Company?
-  likes     Like[]
-  posts     Post[]
-  comments  Comment[]
+enum NotificationType {
+  LIKE
+  COMMENT
+  SUPPORT
+}
+
+model User {
+  id                    String         @id @default(cuid())
+  username              String         @unique
+  name                  String
+  email                 String         @unique
+  emailVerified         Boolean        @default(false)
+  image                 String?
+  bio                   String?
+  pixKey                String?
+  sessions              Session[]
+  accounts              Account[]
+  companies             Company?
+  posts                 Post[]
+  likes                 Like[]
+  comments              Comment[]
+  receivedNotifications Notification[] @relation("Recipient")
+  issuedNotifications   Notification[] @relation("Issuer")
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
 
   @@map("user")
 }
@@ -31,6 +44,7 @@ model User {
 model Company {
   id          String   @id @default(cuid())
   userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   name        String
   description String
   image       String?
@@ -38,7 +52,6 @@ model Company {
   website     String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("company")
 }
@@ -46,13 +59,13 @@ model Company {
 model Session {
   id        String   @id
   userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
   token     String
   ipAddress String?
   userAgent String?
   createdAt DateTime
   updatedAt DateTime
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
   @@map("session")
@@ -63,6 +76,7 @@ model Account {
   accountId             String
   providerId            String
   userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -72,35 +86,45 @@ model Account {
   password              String?
   createdAt             DateTime
   updatedAt             DateTime
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("account")
 }
 
 model Post {
-  id        String     @id @default(cuid())
-  userId    String
-  content   String
-  media     String?
-  mediaType MediaType?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments  Comment[]
-  likes     Like[]
+  id                  String         @id @default(cuid())
+  userId              String
+  content             String
+  user                User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attachments         Media[]
+  likes               Like[]
+  comments            Comment[]
+  linkedNotifications Notification[]
+  updatedAt           DateTime       @updatedAt
+  createdAt           DateTime       @default(now())
 
   @@map("post")
+}
+
+model Media {
+  id        String    @id @default(cuid())
+  postId    String?
+  post      Post?     @relation(fields: [postId], references: [id], onDelete: SetNull)
+  url       String
+  type      MediaType
+  createdAt DateTime  @default(now())
+
+  @@map("post_media")
 }
 
 model Comment {
   id        String   @id @default(cuid())
   postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("comment")
 }
@@ -108,13 +132,29 @@ model Comment {
 model Like {
   id        String   @id @default(cuid())
   postId    String
-  userId    String
-  createdAt DateTime @default(now())
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 
   @@unique([postId, userId])
   @@map("like")
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  recipientId String
+  recipient   User             @relation("Recipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  issuerId    String
+  issuer      User             @relation("Issuer", fields: [issuerId], references: [id], onDelete: Cascade)
+  postId      String?
+  post        Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
+  type        NotificationType
+  read        Boolean          @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@map("notifications")
 }
 
 model Verification {
@@ -126,9 +166,4 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
-}
-
-enum MediaType {
-  IMAGE
-  VIDEO
 }

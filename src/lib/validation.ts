@@ -12,7 +12,7 @@ export const emailSchema = stringSchema.email("Email inválido");
 
 export const usernameSchema = stringSchema.regex(
   /^[a-zA-Z0-9_-]+$/,
-  "Apenas letras, numeros, - e _ são permitidos",
+  "Apenas letras, números, - e _ são permitidos",
 );
 
 export const urlSchema = stringSchema.url("URL inválida");

@@ -31,6 +31,7 @@ export const RegisterForm = () => {
     disabled: isPending,
     defaultValues: {
       name: "",
+      username: "",
       email: "",
       password: "",
     },
@@ -49,7 +50,7 @@ export const RegisterForm = () => {
         if (data?.success) {
           form.reset();
           setSuccess(data?.success);
-          redirect("/");
+          redirect("/feed");
         }
       });
     });
@@ -69,10 +70,27 @@ export const RegisterForm = () => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nome</FormLabel>
+                <FormLabel>Nome completo</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Seu Nome"
+                    placeholder="João da Silva"
+                    disabled={isPending}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nome de usuário</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="joaosilva"
                     disabled={isPending}
                     {...field}
                   />
@@ -89,7 +107,7 @@ export const RegisterForm = () => {
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="seu.email@example.com"
+                    placeholder="joaosilva@example.com"
                     disabled={isPending}
                     {...field}
                   />
@@ -108,7 +126,7 @@ export const RegisterForm = () => {
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="******"
+                    placeholder="********"
                     {...field}
                     disabled={isPending}
                   />

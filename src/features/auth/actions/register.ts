@@ -7,14 +7,10 @@ import { RegisterSchema, registerSchema } from "../lib/validation";
 
 export const register = async (input: RegisterSchema) => {
   try {
-    const { name, email, password } = registerSchema.parse(input);
+    const validatedFields = registerSchema.parse(input);
 
     await auth.api.signUpEmail({
-      body: {
-        name,
-        email,
-        password,
-      },
+      body: validatedFields,
     });
 
     return { success: "Conta criada com sucesso!" };

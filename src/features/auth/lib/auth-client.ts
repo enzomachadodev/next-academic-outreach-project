@@ -1,3 +1,4 @@
+import { usernameClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 import { toast } from "sonner";
 
@@ -10,6 +11,7 @@ export const client = createAuthClient({
       }
     },
   },
+  plugins: [usernameClient()],
 });
 
 export const { signUp, signIn, signOut, useSession } = client;

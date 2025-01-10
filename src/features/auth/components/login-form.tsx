@@ -46,7 +46,7 @@ export const LoginForm = () => {
         if (data?.success) {
           form.reset();
           setSuccess(data.success);
-          redirect("/");
+          redirect("/feed");
         }
       });
     });
