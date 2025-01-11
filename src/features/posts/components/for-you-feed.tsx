@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 import { InfiniteScrollContainer } from "@/components/ui/infinite-scroll-container";
 import { apiInstance } from "@/lib/api";
 
+import { postQueryKeys } from "../lib/query-keys";
 import { PostPage } from "../lib/types";
 import { PostCard, PostCardSkeleton } from "./post-card";
 
@@ -18,7 +19,7 @@ export const ForYouFeed = () => {
     isFetchingNextPage,
     isError,
   } = useInfiniteQuery({
-    queryKey: ["post-feed", "for-you"],
+    queryKey: postQueryKeys.feed("for-you"),
     queryFn: ({ pageParam }) =>
       apiInstance
         .get(
@@ -49,7 +50,11 @@ export const ForYouFeed = () => {
   }
 
   if (isError) {
-    return <p>Ocorreu um erro ao carregar as postagens.</p>;
+    return (
+      <p className="text-center text-destructive-foreground">
+        Ocorreu um erro ao carregar as postagens.
+      </p>
+    );
   }
 
   return (
@@ -61,6 +66,11 @@ export const ForYouFeed = () => {
         <PostCard key={post.id} post={post} />
       ))}
       {isFetchingNextPage && <Loader2 className="mx-auto animate-spin" />}
+      {!hasNextPage && (
+        <p className="text-center text-muted-foreground">
+          Isso é tudo, pessoal! 🐰
+        </p>
+      )}
     </InfiniteScrollContainer>
   );
 };

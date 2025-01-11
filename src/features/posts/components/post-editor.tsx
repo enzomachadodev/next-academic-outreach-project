@@ -3,16 +3,18 @@
 import Placeholder from "@tiptap/extension-placeholder";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSession } from "@/features/auth/lib/auth-client";
 import { UserAvatar } from "@/features/users/components/user-avatar";
 
-import { submitPost } from "../actions/submit-post";
+import { useSubmitPostMutation } from "../lib/mutations";
 
 export const PostEditor = () => {
   const { data: session } = useSession();
+  const { mutate, isPending } = useSubmitPostMutation();
 
   const editor = useEditor({
     extensions: [
@@ -31,9 +33,16 @@ export const PostEditor = () => {
       blockSeparator: "\n",
     }) || "";
 
-  const onSubmit = async () => {
-    await submitPost({ content: input });
-    editor?.commands.clearContent();
+  const onSubmit = () => {
+    mutate(
+      { content: input },
+      {
+        onSuccess: () => {
+          editor?.commands.clearContent();
+          toast.success("Postagem criada com sucesso!");
+        },
+      },
+    );
   };
 
   return (
@@ -51,7 +60,12 @@ export const PostEditor = () => {
           />
         </div>
         <div className="flex w-full justify-end">
-          <Button size="lg" onClick={onSubmit} disabled={!input.trim()}>
+          <Button
+            size="lg"
+            onClick={onSubmit}
+            disabled={!input.trim()}
+            loading={isPending}
+          >
             Publicar
           </Button>
         </div>
