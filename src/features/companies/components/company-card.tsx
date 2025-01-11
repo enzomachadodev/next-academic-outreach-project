@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { formatDate } from "@/lib/utils";
 
 interface EntrepreneursCardProps {
   id: string;
@@ -21,13 +20,12 @@ export const EntrepreneursCard = ({
   bussinessName,
   bussinessDescription,
   image,
-  createdAt,
   views,
 }: EntrepreneursCardProps) => {
   return (
     <li className="startup-card group">
       <div className="flex-between">
-        <p className="startup_card_date">{formatDate(createdAt)}</p>
+        {/* <p className="startup_card_date">{formatDate(createdAt)}</p> */}
         <div className="flex gap-1.5">
           <EyeIcon className="size-6 text-primary" />
           <span className="text-16-medium">{views}</span>

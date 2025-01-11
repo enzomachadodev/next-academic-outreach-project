@@ -2,8 +2,8 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { db } from "@/db";
-import { getSession } from "@/features/auth/actions/get-session";
+import { getSession } from "@/features/auth/lib/actions";
+import { db } from "@/lib/db";
 
 import { userDataSelect } from "../lib/types";
 import { UserAvatar } from "./user-avatar";

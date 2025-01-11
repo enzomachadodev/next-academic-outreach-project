@@ -11,6 +11,7 @@ import {
   UserIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 
 import {
@@ -25,8 +26,8 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { logout } from "@/features/auth/actions/logout";
 import { useSession } from "@/features/auth/lib/auth-client";
+import { signOut } from "@/features/auth/lib/auth-client";
 
 import { UserAvatar } from "./user-avatar";
 
@@ -35,14 +36,22 @@ interface UserButtonProps {
 }
 
 export const UserButton = ({ className }: UserButtonProps) => {
-  const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
+  const { data: session } = useSession();
+
+  const router = useRouter();
 
   const queryClient = useQueryClient();
 
   const handleLogout = async () => {
     queryClient.clear();
-    await logout();
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login");
+        },
+      },
+    });
   };
 
   return (

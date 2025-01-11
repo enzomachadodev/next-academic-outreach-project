@@ -1,10 +1,12 @@
-"use server";
+import { Company } from "@prisma/client";
 
-import { db } from "@/db";
-import { getSession } from "@/features/auth/actions/get-session";
+import { getSession } from "@/features/auth/lib/actions";
+import { db } from "@/lib/db";
 import { getErrorMessage } from "@/lib/handle-error";
+import { idSchema } from "@/lib/validation";
+import { ActionResponse } from "@/types";
 
-import { UpsertCompanySchema, upsertCompanySchema } from "../lib/validation";
+import { UpsertCompanySchema, upsertCompanySchema } from "./validation";
 
 export const upsertCompany = async (input: UpsertCompanySchema) => {
   const session = await getSession();
@@ -49,6 +51,31 @@ export const upsertCompany = async (input: UpsertCompanySchema) => {
   } catch (error) {
     return {
       error: getErrorMessage(error),
+    };
+  }
+};
+
+export const getCompanyByUser = async (
+  userId: string,
+): Promise<ActionResponse<Company | null>> => {
+  try {
+    const validId = idSchema.parse(userId);
+
+    const company = await db.company.findUnique({
+      where: {
+        userId: validId,
+      },
+    });
+
+    return {
+      success: true,
+      data: company,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      error: "Algo inesperado aconteceu!",
     };
   }
 };

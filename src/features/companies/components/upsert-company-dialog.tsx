@@ -22,7 +22,7 @@ import { FormStatus } from "@/components/ui/form-status";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-import { upsertCompany } from "../actions/upsert-company";
+import { upsertCompany } from "../lib/actions";
 import { UpsertCompanySchema, upsertCompanySchema } from "../lib/validation";
 
 interface UpsertCompanyDialogProps {

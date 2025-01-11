@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@/db";
-import { getSession } from "@/features/auth/actions/get-session";
+import { getSession } from "@/features/auth/lib/actions";
+import { db } from "@/lib/db";
 
 import { postDataInclude } from "../lib/types";
 import {

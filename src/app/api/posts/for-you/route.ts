@@ -1,8 +1,8 @@
 import { NextRequest } from "next/server";
 
-import { db } from "@/db";
-import { getSession } from "@/features/auth/actions/get-session";
+import { getSession } from "@/features/auth/lib/actions";
 import { postDataInclude, PostsPage } from "@/features/posts/lib/types";
+import { db } from "@/lib/db";
 
 export async function GET(request: NextRequest) {
   try {

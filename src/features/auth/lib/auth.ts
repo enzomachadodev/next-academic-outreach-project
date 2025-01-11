@@ -3,7 +3,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { username } from "better-auth/plugins";
 
-import { db } from "@/db";
+import { db } from "@/lib/db";
 
 export const auth = betterAuth({
   appName: "Conexão Empreendedora",
