@@ -7,7 +7,7 @@ import { InfiniteScrollContainer } from "@/components/ui/infinite-scroll-contain
 import { apiInstance } from "@/lib/api";
 
 import { postQueryKeys } from "../lib/query-keys";
-import { PostPage } from "../lib/types";
+import { PostsPage } from "../lib/types";
 import { PostCard, PostCardSkeleton } from "./post-card";
 
 export const ForYouFeed = () => {
@@ -32,7 +32,7 @@ export const ForYouFeed = () => {
               }
             : {},
         )
-        .json<PostPage>(),
+        .json<PostsPage>(),
     initialPageParam: null as string | null,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
@@ -51,7 +51,7 @@ export const ForYouFeed = () => {
 
   if (isError) {
     return (
-      <p className="text-center text-destructive-foreground">
+      <p className="text-center text-destructive">
         Ocorreu um erro ao carregar as postagens.
       </p>
     );

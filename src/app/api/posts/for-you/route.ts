@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 
 import { db } from "@/db";
 import { getSession } from "@/features/auth/actions/get-session";
-import { postDataInclude, PostPage } from "@/features/posts/lib/types";
+import { postDataInclude, PostsPage } from "@/features/posts/lib/types";
 
 export async function GET(request: NextRequest) {
   try {
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
     const nextCursor = posts.length > pageSize ? posts[pageSize].id : null;
 
-    const data: PostPage = {
+    const data: PostsPage = {
       posts: posts.slice(0, pageSize),
       nextCursor,
     };

@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import {
@@ -8,10 +10,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSession } from "@/features/auth/lib/auth-client";
 import { UserAvatar } from "@/features/users/components/user-avatar";
 import { formatRelativeDate } from "@/lib/utils";
 
 import { PostData } from "../lib/types";
+import { PostMoreButton } from "./post-more-button";
 
 interface PostCardProps {
   post: PostData;
@@ -20,29 +24,34 @@ interface PostCardProps {
 export const PostCard = ({ post }: PostCardProps) => {
   const { id, content, user, createdAt } = post;
 
+  const { data: session } = useSession();
+
   return (
     <article className="w-full">
       <Card>
-        <CardHeader className="flex-row items-center gap-4">
-          <Link href={`/profile/${user.username}`}>
-            <UserAvatar
-              name={user.name}
-              image={user.image || ""}
-              className="size-12"
-            />
-          </Link>
-          <div className="space-y-1">
-            <Link href={`/users/${user.username}`}>
-              <CardTitle className="hover:underline">{user.name}</CardTitle>
+        <CardHeader className="flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <Link href={`/profile/${user.username}`}>
+              <UserAvatar
+                name={user.name}
+                image={user.image || ""}
+                className="size-12"
+              />
             </Link>
-            <Link
-              href={`/posts/${id}`}
-              className="block text-sm text-muted-foreground hover:underline"
-              suppressHydrationWarning
-            >
-              {formatRelativeDate(createdAt)}
-            </Link>
+            <div className="space-y-1">
+              <Link href={`/users/${user.username}`}>
+                <CardTitle className="hover:underline">{user.name}</CardTitle>
+              </Link>
+              <Link
+                href={`/posts/${id}`}
+                className="block text-sm text-muted-foreground hover:underline"
+                suppressHydrationWarning
+              >
+                {formatRelativeDate(createdAt)}
+              </Link>
+            </div>
           </div>
+          {session?.user.id === post.userId && <PostMoreButton post={post} />}
         </CardHeader>
         <CardContent>
           <article className="whitespace-pre-line break-words">

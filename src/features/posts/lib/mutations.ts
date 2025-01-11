@@ -4,11 +4,12 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { submitPost } from "./actions";
+import { deletePost, submitPost } from "./actions";
 import { postQueryKeys } from "./query-keys";
-import { PostPage } from "./types";
+import { PostsPage } from "./types";
 
 export const useSubmitPostMutation = () => {
   const queryClient = useQueryClient();
@@ -17,13 +18,13 @@ export const useSubmitPostMutation = () => {
     mutationFn: submitPost,
     onSuccess: async (newPost) => {
       const queryFilter: QueryFilters<
-        InfiniteData<PostPage, string | null>,
+        InfiniteData<PostsPage, string | null>,
         Error
       > = { queryKey: postQueryKeys.feed("for-you") };
 
       await queryClient.cancelQueries(queryFilter);
 
-      queryClient.setQueriesData<InfiniteData<PostPage, string | null>>(
+      queryClient.setQueriesData<InfiniteData<PostsPage, string | null>>(
         queryFilter,
         (oldData) => {
           const firstPage = oldData?.pages[0];
@@ -55,6 +56,53 @@ export const useSubmitPostMutation = () => {
     onError: (error) => {
       console.error(error);
       toast.error(error.message);
+    },
+  });
+
+  return mutation;
+};
+
+export const useDeletePostMutation = () => {
+  const queryClient = useQueryClient();
+
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const mutation = useMutation({
+    mutationFn: deletePost,
+    onSuccess: async (deletedPost) => {
+      const queryFilter: QueryFilters<
+        InfiniteData<PostsPage, string | null>,
+        Error
+      > = { queryKey: postQueryKeys.all };
+
+      await queryClient.cancelQueries(queryFilter);
+
+      queryClient.setQueriesData<InfiniteData<PostsPage, string | null>>(
+        queryFilter,
+        (oldData) => {
+          if (!oldData) return;
+
+          return {
+            pageParams: oldData.pageParams,
+            pages: oldData.pages.map((page) => ({
+              nextCursor: page.nextCursor,
+              posts: page.posts.filter((post) => post.id !== deletedPost.id),
+            })),
+          };
+        },
+      );
+      toast.success("Post deletado com sucesso!");
+
+      if (pathname === `/posts/${deletedPost.id}`) {
+        router.push("/feed");
+      }
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error(
+        "Error ao deletar postagem. Por favor, tente novamente mais tarde.",
+      );
     },
   });
 
