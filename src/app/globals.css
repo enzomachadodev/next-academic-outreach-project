@@ -107,6 +107,10 @@
     scrollbar-width: none; /* Firefox */
   }
 
+  .no-focus {
+    @apply focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 !important;
+  }
+
   .wrapper {
     @apply container mx-auto max-w-screen-2xl px-4 sm:px-8;
   }
