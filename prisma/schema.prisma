@@ -31,6 +31,8 @@ model User {
   accounts              Account[]
   company               Company?
   posts                 Post[]
+  following             Follow[]       @relation("Following")
+  followers             Follow[]       @relation("Followers")
   likes                 Like[]
   comments              Comment[]
   receivedNotifications Notification[] @relation("Recipient")
@@ -88,6 +90,16 @@ model Account {
   updatedAt             DateTime
 
   @@map("account")
+}
+
+model Follow {
+  followerId  String
+  follower    User   @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String
+  following   User   @relation("Followers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@map("follows")
 }
 
 model Post {

@@ -1,7 +1,6 @@
 import { Prisma } from "@prisma/client";
 
 export const getUserDataSelect = (loggedInUserId?: string) => {
-  console.log(loggedInUserId);
   return {
     id: true,
     username: true,
@@ -11,18 +10,18 @@ export const getUserDataSelect = (loggedInUserId?: string) => {
     pixKey: true,
     createdAt: true,
     company: true,
-    // followers: {
-    //   where: {
-    //     followerId: loggedInUserId,
-    //   },
-    //   select: {
-    //     followerId: true,
-    //   },
-    // },
+    followers: {
+      where: {
+        followerId: loggedInUserId,
+      },
+      select: {
+        followerId: true,
+      },
+    },
     _count: {
       select: {
         posts: true,
-        // followers: true,
+        followers: true,
       },
     },
   } satisfies Prisma.UserSelect;
@@ -31,3 +30,8 @@ export const getUserDataSelect = (loggedInUserId?: string) => {
 export type UserData = Prisma.UserGetPayload<{
   select: ReturnType<typeof getUserDataSelect>;
 }>;
+
+export interface FollowerInfo {
+  followers: number;
+  isFollowedByUser: boolean;
+}

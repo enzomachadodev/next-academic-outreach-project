@@ -26,6 +26,7 @@ export const PostEditor = () => {
         placeholder: "O que você está pensando?",
       }),
     ],
+    immediatelyRender: false,
   });
 
   const input =

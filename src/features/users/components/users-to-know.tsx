@@ -1,11 +1,11 @@
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getSession } from "@/features/auth/lib/actions";
 import { db } from "@/lib/db";
 
 import { getUserDataSelect } from "../lib/types";
+import { FollowButton } from "./follow-button";
 import { UserAvatar } from "./user-avatar";
 
 export const UsersToKnow = async () => {
@@ -18,6 +18,11 @@ export const UsersToKnow = async () => {
       NOT: {
         id: session.userId,
       },
+      followers: {
+        none: {
+          followerId: session.userId,
+        },
+      },
     },
     select: getUserDataSelect(session.userId),
     take: 5,
@@ -26,9 +31,9 @@ export const UsersToKnow = async () => {
   return (
     <Card className="h-fit w-full">
       <CardHeader>
-        <CardTitle>Empreendedores para Conhecer</CardTitle>
+        <CardTitle>Sugestões de Empreendedores</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-6">
         {users.map((user) => (
           <div
             key={user.id}
@@ -53,9 +58,13 @@ export const UsersToKnow = async () => {
               </div>
             </Link>
 
-            <Button size="sm" variant="outline" asChild>
-              <Link href={`/profile/${user.username}`}>Visitar</Link>
-            </Button>
+            <FollowButton
+              userId={user.id}
+              initialState={{
+                followers: user._count.followers,
+                isFollowedByUser: !!user.followers.length,
+              }}
+            />
           </div>
         ))}
       </CardContent>

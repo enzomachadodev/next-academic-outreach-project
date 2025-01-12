@@ -43,6 +43,7 @@ export const register = async (input: RegisterSchema) => {
 
     return { success: "Conta criada com sucesso!" };
   } catch (error) {
+    console.error(error);
     return {
       error: getErrorMessage(error),
     };
