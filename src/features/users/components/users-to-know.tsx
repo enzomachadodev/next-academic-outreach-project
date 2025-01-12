@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getSession } from "@/features/auth/lib/actions";
 import { db } from "@/lib/db";
 
-import { userDataSelect } from "../lib/types";
+import { getUserDataSelect } from "../lib/types";
 import { UserAvatar } from "./user-avatar";
 
 export const UsersToKnow = async () => {
@@ -19,7 +19,7 @@ export const UsersToKnow = async () => {
         id: session.userId,
       },
     },
-    select: userDataSelect,
+    select: getUserDataSelect(session.userId),
     take: 5,
   });
 

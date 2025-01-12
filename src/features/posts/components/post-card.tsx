@@ -39,7 +39,7 @@ export const PostCard = ({ post }: PostCardProps) => {
               />
             </Link>
             <div className="space-y-1">
-              <Link href={`/users/${user.username}`}>
+              <Link href={`/profile/${user.username}`}>
                 <CardTitle className="hover:underline">{user.name}</CardTitle>
               </Link>
               <Link

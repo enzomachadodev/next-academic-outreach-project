@@ -3,7 +3,7 @@
 import { getSession } from "@/features/auth/lib/actions";
 import { db } from "@/lib/db";
 
-import { postDataInclude } from "../lib/types";
+import { getPostDataInclude } from "../lib/types";
 import {
   CreatePostSchema,
   createPostSchema,
@@ -23,7 +23,7 @@ export const submitPost = async (input: CreatePostSchema) => {
       ...validatedFields,
       userId: session.userId,
     },
-    include: postDataInclude,
+    include: getPostDataInclude(session.userId),
   });
 
   return newPost;
@@ -46,7 +46,7 @@ export const deletePost = async (input: DeletePostSchema) => {
 
   const deletedPost = await db.post.delete({
     where: { id: postId },
-    include: postDataInclude,
+    include: getPostDataInclude(session.userId),
   });
 
   return deletedPost;

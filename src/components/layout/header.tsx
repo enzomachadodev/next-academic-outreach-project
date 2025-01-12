@@ -6,7 +6,7 @@ import { SearchBar } from "./search-bar";
 
 export const Header = () => {
   return (
-    <header className="sticky left-0 top-0 z-10 w-full bg-background px-5 py-3 shadow-sm">
+    <header className="sticky left-0 top-0 z-10 w-full border-b bg-card px-5 py-3 shadow-sm">
       <div className="wrapper flex items-center justify-between">
         <Link href="/" className="text-2xl font-semibold">
           Conexão Empreendedora

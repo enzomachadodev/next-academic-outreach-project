@@ -1,11 +1,14 @@
 import {
   InfiniteData,
+  Query,
   QueryFilters,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
+
+import { useSession } from "@/features/auth/lib/auth-client";
 
 import { deletePost, submitPost } from "./actions";
 import { postQueryKeys } from "./query-keys";
@@ -14,20 +17,31 @@ import { PostsPage } from "./types";
 export const useSubmitPostMutation = () => {
   const queryClient = useQueryClient();
 
+  const { data: session } = useSession();
+
   const mutation = useMutation({
     mutationFn: submitPost,
     onSuccess: async (newPost) => {
-      const queryFilter: QueryFilters<
-        InfiniteData<PostsPage, string | null>,
-        Error
-      > = { queryKey: postQueryKeys.feed("for-you") };
+      const queryFilter: QueryFilters<InfiniteData<PostsPage>> = {
+        queryKey: postQueryKeys.all,
+        predicate(query) {
+          const isForYou = query.queryKey.includes("for-you");
+          const isUserPosts =
+            query.queryKey.includes("user-posts") &&
+            query.queryKey.includes(session?.user.id);
+
+          return isForYou || isUserPosts;
+        },
+      };
 
       await queryClient.cancelQueries(queryFilter);
 
-      queryClient.setQueriesData<InfiniteData<PostsPage, string | null>>(
+      queryClient.setQueriesData<InfiniteData<PostsPage>>(
         queryFilter,
         (oldData) => {
-          const firstPage = oldData?.pages[0];
+          if (!oldData) return undefined;
+
+          const firstPage = oldData.pages[0];
 
           if (firstPage) {
             return {
@@ -41,13 +55,14 @@ export const useSubmitPostMutation = () => {
               ],
             };
           }
+          return oldData;
         },
       );
 
       queryClient.invalidateQueries({
         queryKey: queryFilter.queryKey,
-        predicate(query) {
-          return !query.state.data;
+        predicate(query: Query<InfiniteData<PostsPage>, Error>): boolean {
+          return !!queryFilter.predicate?.(query) && !query.state.data;
         },
       });
 

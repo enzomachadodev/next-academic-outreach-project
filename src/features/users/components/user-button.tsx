@@ -67,7 +67,7 @@ export const UserButton = ({ className }: UserButtonProps) => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Logado como {session?.user.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <Link href="/profile">
+        <Link href={`/profile/${session?.user.username}`}>
           <DropdownMenuItem>
             <UserIcon className="mr-2 size-4" />
             Perfil

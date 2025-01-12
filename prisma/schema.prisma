@@ -29,7 +29,7 @@ model User {
   pixKey                String?
   sessions              Session[]
   accounts              Account[]
-  companies             Company?
+  company               Company?
   posts                 Post[]
   likes                 Like[]
   comments              Comment[]
