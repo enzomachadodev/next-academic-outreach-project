@@ -17,7 +17,7 @@ export const ForYouFeed = () => {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    isError,
+    status,
   } = useInfiniteQuery({
     queryKey: postQueryKeys.feed("for-you"),
     queryFn: ({ pageParam }) =>
@@ -39,7 +39,7 @@ export const ForYouFeed = () => {
 
   const posts = data?.pages.flatMap((page) => page.posts) || [];
 
-  if (isFetching) {
+  if (status === "pending") {
     return (
       <div className="space-y-4 sm:space-y-8">
         <PostCardSkeleton />
@@ -49,7 +49,15 @@ export const ForYouFeed = () => {
     );
   }
 
-  if (isError) {
+  if (status === "success" && !posts.length && !hasNextPage) {
+    return (
+      <p className="text-center text-muted-foreground">
+        Nenhuma publicação encontrada.
+      </p>
+    );
+  }
+
+  if (status === "error") {
     return (
       <p className="text-center text-destructive">
         Ocorreu um erro ao carregar as postagens.
