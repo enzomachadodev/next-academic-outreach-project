@@ -21,9 +21,9 @@ export const submitPost = async (input: CreatePostSchema) => {
   const newPost = await db.post.create({
     data: {
       ...validatedFields,
-      userId: session.userId,
+      userId: session.user.id,
     },
-    include: getPostDataInclude(session.userId),
+    include: getPostDataInclude(session.user.id),
   });
 
   return newPost;
@@ -42,11 +42,11 @@ export const deletePost = async (input: DeletePostSchema) => {
 
   if (!postExists) throw new Error("Post não encontrado");
 
-  if (postExists.userId !== session.userId) throw new Error("Não autorizado");
+  if (postExists.userId !== session.user.id) throw new Error("Não autorizado");
 
   const deletedPost = await db.post.delete({
     where: { id: postId },
-    include: getPostDataInclude(session.userId),
+    include: getPostDataInclude(session.user.id),
   });
 
   return deletedPost;

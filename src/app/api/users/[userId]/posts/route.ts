@@ -7,9 +7,11 @@ import { idSchema } from "@/lib/validation";
 
 export async function GET(
   request: NextRequest,
-  { params: { userId } }: { params: { userId: string } },
+  { params }: { params: Promise<{ userId: string }> },
 ) {
   try {
+    const { userId } = await params;
+
     const cursor = request.nextUrl.searchParams.get("cursor") || undefined;
 
     const pageSize = 10;
@@ -22,7 +24,7 @@ export async function GET(
       where: {
         userId: validId,
       },
-      include: getPostDataInclude(session?.userId),
+      include: getPostDataInclude(session?.user.id),
       orderBy: { createdAt: "desc" },
       take: pageSize + 1,
       cursor: cursor ? { id: cursor } : undefined,

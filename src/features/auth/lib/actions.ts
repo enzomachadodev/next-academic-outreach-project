@@ -55,5 +55,5 @@ export const getSession = cache(async () => {
     headers: await headers(),
   });
 
-  return session?.session;
+  return session;
 });

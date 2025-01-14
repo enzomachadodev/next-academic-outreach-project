@@ -26,13 +26,13 @@ const Profile = async ({ params }: PageProps) => {
 
   const session = await getSession();
 
-  const user = await getUser(username, session?.userId);
+  const user = await getUser(username, session?.user.id);
 
   if (!user) return notFound();
 
   return (
     <main className="wrapper flex min-h-screen w-full flex-col gap-4 pt-8 md:gap-8">
-      <UserProfile user={user} loggedUserId={session?.userId} />
+      <UserProfile user={user} loggedUserId={session?.user.id} />
       <h2 className="text-3xl font-semibold">Publicações</h2>
       <UserPosts userId={user.id} />
     </main>

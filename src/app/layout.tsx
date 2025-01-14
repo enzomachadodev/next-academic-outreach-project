@@ -1,11 +1,15 @@
 import "./globals.css";
 
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { extractRouterConfig } from "uploadthing/server";
 
 import { ReactQueryProvider } from "@/components/providers/react-query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+
+import { fileRouter } from "./api/uploadthing/core";
 
 const fontSans = Inter({
   variable: "--font-sans",
@@ -25,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${fontSans.variable}`}>
+        <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
         <ReactQueryProvider>
           <ThemeProvider
             attribute="class"

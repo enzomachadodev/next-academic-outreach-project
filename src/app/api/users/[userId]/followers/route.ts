@@ -23,7 +23,7 @@ export async function GET(
       select: {
         followers: {
           where: {
-            followerId: session?.userId,
+            followerId: session?.user.id,
           },
           select: {
             followerId: true,
@@ -74,12 +74,12 @@ export async function POST(
     await db.follow.upsert({
       where: {
         followerId_followingId: {
-          followerId: session.userId,
+          followerId: session.user.id,
           followingId: validId,
         },
       },
       create: {
-        followerId: session.userId,
+        followerId: session.user.id,
         followingId: userId,
       },
       update: {},
@@ -110,7 +110,7 @@ export async function DELETE(
     // Using deleteMany to avoid throwing an error
     await db.follow.deleteMany({
       where: {
-        followerId: session.userId,
+        followerId: session.user.id,
         followingId: validId,
       },
     });

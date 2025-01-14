@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     }
 
     const posts = await db.post.findMany({
-      include: getPostDataInclude(session.userId),
+      include: getPostDataInclude(session.user.id),
       orderBy: { createdAt: "desc" },
       take: pageSize + 1,
       cursor: cursor ? { id: cursor } : undefined,

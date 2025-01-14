@@ -27,7 +27,7 @@ export const upsertCompany = async (input: UpsertCompanySchema) => {
         return { error: "Empresa não econtrada" };
       }
 
-      if (companyExists.userId !== session.userId) {
+      if (companyExists.userId !== session.user.id) {
         return { error: "Usuário não autorizado" };
       }
 
@@ -43,7 +43,7 @@ export const upsertCompany = async (input: UpsertCompanySchema) => {
     await db.company.create({
       data: {
         ...values,
-        userId: session.userId,
+        userId: session.user.id,
       },
     });
 

@@ -16,15 +16,15 @@ export const UsersToKnow = async () => {
   const users = await db.user.findMany({
     where: {
       NOT: {
-        id: session.userId,
+        id: session.user.id,
       },
       followers: {
         none: {
-          followerId: session.userId,
+          followerId: session.user.id,
         },
       },
     },
-    select: getUserDataSelect(session.userId),
+    select: getUserDataSelect(session.user.id),
     take: 5,
   });
 

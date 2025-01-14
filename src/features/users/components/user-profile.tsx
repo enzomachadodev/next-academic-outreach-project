@@ -1,9 +1,10 @@
-import { Edit, HandCoins, Plus } from "lucide-react";
+import { HandCoins, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { UserData } from "../lib/types";
+import { EditProfileButton } from "./edit-profile-button";
 import { UserAvatar } from "./user-avatar";
 
 interface UserProfileProps {
@@ -15,12 +16,7 @@ export const UserProfile = ({ user, loggedUserId }: UserProfileProps) => {
   return (
     <>
       <Card className="relative flex w-full flex-col overflow-hidden border-b px-0 shadow-sm">
-        {user.id === loggedUserId && (
-          <Button variant="secondary" className="absolute right-4 top-4">
-            Editar Perfil
-            <Edit />
-          </Button>
-        )}
+        {user.id === loggedUserId && <EditProfileButton user={user} />}
         <div className="h-28 w-full bg-primary md:h-40" />
         <div className="w-full bg-card">
           <div className="relative flex flex-col gap-y-4 p-6 sm:pt-12 md:p-8 md:pt-20">
