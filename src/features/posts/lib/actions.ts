@@ -16,12 +16,15 @@ export const submitPost = async (input: CreatePostSchema) => {
 
   if (!session) throw Error("Não autorizado");
 
-  const validatedFields = createPostSchema.parse(input);
+  const { content, mediaIds } = createPostSchema.parse(input);
 
   const newPost = await db.post.create({
     data: {
-      ...validatedFields,
       userId: session.user.id,
+      content,
+      attachments: {
+        connect: mediaIds.map((id) => ({ id })),
+      },
     },
     include: getPostDataInclude(session.user.id),
   });

@@ -15,6 +15,7 @@ import { UserAvatar } from "@/features/users/components/user-avatar";
 import { formatRelativeDate } from "@/lib/utils";
 
 import { PostData } from "../lib/types";
+import { MediaPreviews } from "./media-previews";
 import { PostMoreButton } from "./post-more-button";
 
 interface PostCardProps {
@@ -22,7 +23,7 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ post }: PostCardProps) => {
-  const { id, content, user, createdAt } = post;
+  const { id, content, attachments, user, createdAt } = post;
 
   const { data: session } = useSession();
 
@@ -56,6 +57,9 @@ export const PostCard = ({ post }: PostCardProps) => {
         <CardContent>
           <article className="whitespace-pre-line break-words">
             {content}
+            {!!post.attachments.length && (
+              <MediaPreviews attachments={attachments} />
+            )}
           </article>
         </CardContent>
         <CardFooter>
