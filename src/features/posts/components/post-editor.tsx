@@ -3,6 +3,7 @@
 import Placeholder from "@tiptap/extension-placeholder";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { useDropzone } from "@uploadthing/react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -11,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useSession } from "@/features/auth/lib/auth-client";
 import { UserAvatar } from "@/features/users/components/user-avatar";
 import { useMediaUpload } from "@/hooks/use-media-upload";
+import { cn } from "@/lib/utils";
 
 import { useSubmitPostMutation } from "../lib/mutations";
 import { AddAttachmentsButton } from "./add-attachments-button";
@@ -28,6 +30,13 @@ export const PostEditor = () => {
     removeAttachment,
     reset: resetMediaUploads,
   } = useMediaUpload();
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: startUpload,
+  });
+
+  // eslint-disable-next-line
+  const { onClick, ...rootProps } = getRootProps();
 
   const editor = useEditor({
     extensions: [
@@ -63,6 +72,13 @@ export const PostEditor = () => {
     );
   };
 
+  const onPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const files = Array.from(e.clipboardData.items)
+      .filter((item) => item.kind === "file")
+      .map((item) => item.getAsFile()) as File[];
+    startUpload(files);
+  };
+
   return (
     <Card>
       <CardContent className="space-y-6 pt-6">
@@ -72,10 +88,17 @@ export const PostEditor = () => {
             image={session?.user.image || ""}
             className="hidden size-[70px] sm:inline"
           />
-          <EditorContent
-            editor={editor}
-            className="max-h-60 min-h-14 w-full rounded-md border border-input bg-transparent p-6 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-          />
+          <div {...rootProps} className="w-full">
+            <EditorContent
+              editor={editor}
+              className={cn(
+                "max-h-60 min-h-14 w-full rounded-md border border-input bg-transparent p-6 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+                isDragActive && "outline-dashed",
+              )}
+              onPaste={onPaste}
+            />
+            <input {...getInputProps} />
+          </div>
           {!!attachments.length && (
             <AttachmentPreviews
               attachments={attachments}
