@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { idSchema, stringSchema } from "@/lib/validation";
+import { stringSchema } from "@/lib/validation";
 
 export const createPostSchema = z.object({
   content: stringSchema,
@@ -10,7 +10,7 @@ export const createPostSchema = z.object({
 export type CreatePostSchema = z.infer<typeof createPostSchema>;
 
 export const deletePostSchema = z.object({
-  postId: idSchema,
+  postId: z.string(),
 });
 
 export type DeletePostSchema = z.infer<typeof deletePostSchema>;

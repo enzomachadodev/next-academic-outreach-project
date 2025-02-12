@@ -97,7 +97,7 @@ export const PostEditor = () => {
               )}
               onPaste={onPaste}
             />
-            <input {...getInputProps} />
+            <input hidden className="sr-only" {...getInputProps} />
           </div>
           {!!attachments.length && (
             <AttachmentPreviews
