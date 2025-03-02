@@ -4,7 +4,7 @@
  * @type {string[]}
  */
 
-export const publicRoutes = ["/"];
+export const publicRoutes = ["/posts", "/profile"];
 
 /**
  * An array of routes that are used for authentication
@@ -12,7 +12,7 @@ export const publicRoutes = ["/"];
  * @type {string[]}
  */
 
-export const authRoutes = ["/login", "/register"];
+export const authRoutes = ["/", "/login", "/register"];
 
 /**
  * The prefix for API authentication routes

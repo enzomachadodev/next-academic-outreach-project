@@ -14,11 +14,17 @@ export async function GET(
 
     const session = await getSession();
 
-    const validId = idSchema.parse(userId);
+    const validId = idSchema.safeParse(userId);
+
+    if (!validId.success)
+      return Response.json(
+        { error: "Usuário não encontrado" },
+        { status: 404 },
+      );
 
     const user = await db.user.findUnique({
       where: {
-        id: validId,
+        id: validId.data,
       },
       select: {
         followers: {
