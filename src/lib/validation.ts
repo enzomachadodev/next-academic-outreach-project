@@ -6,7 +6,7 @@ export const passwordSchema = z
   .string()
   .min(8, "A senha deve ter no mínimo 8 caracteres");
 
-export const idSchema = stringSchema.regex(/^[a-zA-Z0-9]{32}$/, "ID inválido");
+export const idSchema = stringSchema.cuid("ID inválido");
 
 export const emailSchema = stringSchema.email("Email inválido");
 
