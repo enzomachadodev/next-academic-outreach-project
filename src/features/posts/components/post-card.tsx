@@ -15,6 +15,7 @@ import { UserAvatar } from "@/features/users/components/user-avatar";
 import { formatRelativeDate } from "@/lib/utils";
 
 import { PostData } from "../lib/types";
+import { LikeButton } from "./like-button";
 import { MediaPreviews } from "./media-previews";
 import { PostMoreButton } from "./post-more-button";
 
@@ -63,7 +64,13 @@ export const PostCard = ({ post }: PostCardProps) => {
           </article>
         </CardContent>
         <CardFooter>
-          <p>Card Footer</p>
+          <LikeButton
+            postId={post.id}
+            initialState={{
+              likes: post._count.likes,
+              isLikedByUser: post.likes.some((like) => like.userId === user.id),
+            }}
+          />
         </CardFooter>
       </Card>
     </article>

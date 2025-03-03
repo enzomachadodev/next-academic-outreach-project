@@ -34,3 +34,8 @@ export type PostsPage = {
   posts: PostData[];
   nextCursor: string | null;
 };
+
+export interface LikeInfo {
+  likes: number;
+  isLikedByUser: boolean;
+}
