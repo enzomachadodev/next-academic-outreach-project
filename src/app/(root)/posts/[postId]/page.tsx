@@ -1,3 +1,4 @@
+import { Loader2 } from "lucide-react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache, Suspense } from "react";
@@ -5,7 +6,7 @@ import { cache, Suspense } from "react";
 import { getSession } from "@/features/auth/lib/actions";
 import { PostDetail } from "@/features/posts/components/post-detail";
 import { getPostDataInclude } from "@/features/posts/lib/types";
-import { UsersToKnow } from "@/features/users/components/users-to-know";
+import { UserInfoSidebar } from "@/features/users/components/user-info-sidebar";
 import { db } from "@/lib/db";
 import { idSchema } from "@/lib/validation";
 
@@ -57,8 +58,8 @@ const Page = async ({ params }: PageProps) => {
         <PostDetail post={post} />
       </div>
       <div className="sticky top-24 col-span-1 hidden h-[500px] lg:flex">
-        <Suspense fallback={<span>Carregando...</span>}>
-          <UsersToKnow />
+        <Suspense fallback={<Loader2 className="mx-auto animate-spin" />}>
+          <UserInfoSidebar user={post.user} />
         </Suspense>
       </div>
     </main>
