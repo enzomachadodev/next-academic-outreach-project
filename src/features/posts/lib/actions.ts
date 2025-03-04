@@ -3,10 +3,14 @@
 import { getSession } from "@/features/auth/lib/actions";
 import { db } from "@/lib/db";
 
-import { getPostDataInclude } from "../lib/types";
+import { getCommentDataInclude, getPostDataInclude } from "../lib/types";
 import {
+  CreateCommentSchema,
+  createCommentSchema,
   CreatePostSchema,
   createPostSchema,
+  DeleteCommentSchema,
+  deleteCommentSchema,
   DeletePostSchema,
   deletePostSchema,
 } from "../lib/validation";
@@ -54,3 +58,71 @@ export const deletePost = async (input: DeletePostSchema) => {
 
   return deletedPost;
 };
+
+export const submitComment = async (input: CreateCommentSchema) => {
+  const session = await getSession();
+
+  if (!session) throw new Error("Não autorizado!");
+
+  const { user } = session;
+
+  const { content, postId } = createCommentSchema.parse(input);
+
+  const post = await db.post.findUnique({
+    where: { id: input.postId },
+    select: { userId: true },
+  });
+
+  if (!post) throw new Error("Post não encontrado");
+
+  const [newComment] = await db.$transaction([
+    db.comment.create({
+      data: {
+        content,
+        postId,
+        userId: user.id,
+      },
+      include: getCommentDataInclude(user.id),
+    }),
+    ...(post.userId !== user.id
+      ? [
+          db.notification.create({
+            data: {
+              issuerId: user.id,
+              recipientId: post.userId,
+              postId,
+              type: "COMMENT",
+            },
+          }),
+        ]
+      : []),
+  ]);
+
+  return newComment;
+};
+
+export async function deleteComment(input: DeleteCommentSchema) {
+  const session = await getSession();
+
+  if (!session) throw new Error("Não autorizado!");
+
+  const { user } = session;
+
+  const { commentId } = deleteCommentSchema.parse(input);
+
+  const comment = await db.comment.findUnique({
+    where: { id: commentId },
+    select: { userId: true },
+  });
+
+  if (!comment) throw new Error("Comentário não encontrado");
+
+  if (comment.userId !== user.id) throw new Error("Não autorizado");
+
+  const deletedComment = await db.comment.delete({
+    where: { id: commentId },
+    include: getCommentDataInclude(user.id),
+  });
+
+  return deletedComment;
+}

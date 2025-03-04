@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
 import {
   Card,
@@ -15,6 +16,8 @@ import { UserAvatar } from "@/features/users/components/user-avatar";
 import { formatRelativeDate } from "@/lib/utils";
 
 import { PostData } from "../lib/types";
+import { CommentButton } from "./comment-button";
+import { Comments } from "./comments";
 import { LikeButton } from "./like-button";
 import { MediaPreviews } from "./media-previews";
 import { PostMoreButton } from "./post-more-button";
@@ -27,6 +30,8 @@ export const PostCard = ({ post }: PostCardProps) => {
   const { id, content, attachments, user, createdAt } = post;
 
   const { data: session } = useSession();
+
+  const [showComments, setShowComments] = useState(false);
 
   return (
     <article className="w-full">
@@ -63,7 +68,7 @@ export const PostCard = ({ post }: PostCardProps) => {
             )}
           </article>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="gap-6">
           <LikeButton
             postId={post.id}
             initialState={{
@@ -71,7 +76,12 @@ export const PostCard = ({ post }: PostCardProps) => {
               isLikedByUser: post.likes.some((like) => like.userId === user.id),
             }}
           />
+          <CommentButton
+            post={post}
+            onClick={() => setShowComments(!showComments)}
+          />
         </CardFooter>
+        {showComments && <Comments post={post} />}
       </Card>
     </article>
   );
