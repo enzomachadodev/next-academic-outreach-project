@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import { Linkify } from "@/components/linkify";
 import {
   Card,
   CardContent,
@@ -61,12 +62,14 @@ export const PostCard = ({ post }: PostCardProps) => {
           {session?.user.id === post.userId && <PostMoreButton post={post} />}
         </CardHeader>
         <CardContent>
-          <article className="whitespace-pre-line break-words">
-            {content}
-            {!!post.attachments.length && (
-              <MediaPreviews attachments={attachments} />
-            )}
-          </article>
+          <Linkify>
+            <article className="whitespace-pre-line break-words">
+              {content}
+            </article>
+          </Linkify>
+          {!!post.attachments.length && (
+            <MediaPreviews attachments={attachments} />
+          )}
         </CardContent>
         <CardFooter className="gap-6">
           <LikeButton

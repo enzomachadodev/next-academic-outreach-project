@@ -6,13 +6,19 @@ interface PageProps {
   searchParams: { q: string };
 }
 
-export function generateMetadata({ searchParams: { q } }: PageProps): Metadata {
+export async function generateMetadata({
+  searchParams,
+}: PageProps): Promise<Metadata> {
+  const { q } = await searchParams;
+
   return {
     title: `Search results for "${q}"`,
   };
 }
 
-export default function Page({ searchParams: { q } }: PageProps) {
+const Search = async ({ searchParams }: PageProps) => {
+  const { q } = await searchParams;
+
   return (
     <main className="flex w-full min-w-0 gap-5">
       <div className="w-full min-w-0 space-y-5">
@@ -26,4 +32,6 @@ export default function Page({ searchParams: { q } }: PageProps) {
       <div></div>
     </main>
   );
-}
+};
+
+export default Search;

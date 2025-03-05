@@ -1,5 +1,6 @@
 import { HandCoins, Plus } from "lucide-react";
 
+import { Linkify } from "@/components/linkify";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -68,8 +69,12 @@ export const UserProfile = ({ user, loggedUserId }: UserProfileProps) => {
           <CardHeader>
             <CardTitle>Sobre Mim</CardTitle>
           </CardHeader>
-          <CardContent className="overflow-hidden whitespace-pre-line break-words">
-            {user.bio}
+          <CardContent>
+            <Linkify>
+              <div className="overflow-hidden whitespace-pre-line break-words">
+                {user.bio}
+              </div>
+            </Linkify>
           </CardContent>
         </Card>
       )}

@@ -1,8 +1,6 @@
-import { Suspense } from "react";
-
+import { TrendsSidebar } from "@/components/trends-sidebar";
 import { ForYouFeed } from "@/features/posts/components/for-you-feed";
 import { PostEditor } from "@/features/posts/components/post-editor";
-import { UsersToKnow } from "@/features/users/components/users-to-know";
 
 const Feed = () => {
   return (
@@ -11,11 +9,7 @@ const Feed = () => {
         <PostEditor />
         <ForYouFeed />
       </div>
-      <div className="sticky top-24 col-span-1 hidden h-[500px] lg:flex">
-        <Suspense fallback={<span>Carregando...</span>}>
-          <UsersToKnow />
-        </Suspense>
-      </div>
+      <TrendsSidebar />
     </main>
   );
 };

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 
+import { Linkify } from "@/components/linkify";
 import {
   Tooltip,
   TooltipContent,
@@ -51,7 +52,11 @@ export const UserTooltip = ({ user, children }: UserTooltipProps) => {
               </Link>
             </div>
             {user.bio && (
-              <div className="line-clamp-4 whitespace-pre-line">{user.bio}</div>
+              <Linkify>
+                <div className="line-clamp-4 whitespace-pre-line">
+                  {user.bio}
+                </div>
+              </Linkify>
             )}
           </div>
         </TooltipContent>

@@ -10,6 +10,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  rewrites: () => {
+    return Promise.resolve([
+      {
+        source: "/hashtag/:tag",
+        destination: "/search?q=%23:tag",
+      },
+    ]);
+  },
 };
 
 export default nextConfig;
