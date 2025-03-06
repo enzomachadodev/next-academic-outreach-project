@@ -39,11 +39,11 @@ export const DeletePostDialog = ({
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Apagar publicação?</DialogTitle>
+          <DialogTitle>Delete post?</DialogTitle>
         </DialogHeader>
         <DialogDescription>
-          Tem certeza de que deseja apagar essa publicação? Essa ação não pode
-          ser desfeita.
+          Are you sure you want to delete this post? This action cannot be
+          undone.
         </DialogDescription>
         <DialogFooter>
           <Button
@@ -51,10 +51,10 @@ export const DeletePostDialog = ({
             onClick={handleDeletePost}
             loading={isPending}
           >
-            Apagar
+            Delete
           </Button>
           <Button variant="outline" disabled={isPending} onClick={onClose}>
-            Cancelar
+            Cancel
           </Button>
         </DialogFooter>
       </DialogContent>
