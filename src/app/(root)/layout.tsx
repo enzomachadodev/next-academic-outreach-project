@@ -8,7 +8,7 @@ const Layout = ({
   return (
     <>
       <Header />
-      {children}
+      <div className="w-full bg-slate-50/50 dark:bg-background">{children}</div>
     </>
   );
 };

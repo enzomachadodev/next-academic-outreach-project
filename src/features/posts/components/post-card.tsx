@@ -37,7 +37,7 @@ export const PostCard = ({ post }: PostCardProps) => {
   return (
     <article className="w-full">
       <Card>
-        <CardHeader className="flex-row items-center justify-between gap-4">
+        <CardHeader className="flex-row justify-between gap-4">
           <div className="flex items-center gap-4">
             <Link href={`/profile/${user.username}`}>
               <UserAvatar

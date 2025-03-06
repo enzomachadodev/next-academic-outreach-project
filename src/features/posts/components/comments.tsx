@@ -34,7 +34,7 @@ export const Comments = ({ post }: CommentsProps) => {
   const comments = data?.pages.flatMap((page) => page.comments) || [];
 
   return (
-    <div className="space-y-3 px-6">
+    <div className="space-y-5 p-5 pb-0">
       <CommentInput post={post} />
       {hasNextPage && (
         <Button
@@ -46,20 +46,25 @@ export const Comments = ({ post }: CommentsProps) => {
           Load previous comments
         </Button>
       )}
-      {status === "pending" && <Loader2 className="mx-auto animate-spin" />}
-      {status === "success" && !comments.length && (
-        <p className="text-center text-muted-foreground">No comments yet.</p>
+      {status === "pending" && (
+        <Loader2 className="mx-auto animate-spin pb-5" />
+      )}
+      {status === "success" && !comments.length ? (
+        <p className="pb-5 text-center text-muted-foreground">
+          No comments yet.
+        </p>
+      ) : (
+        <div className="divide-y">
+          {comments.map((comment) => (
+            <Comment key={comment.id} comment={comment} />
+          ))}
+        </div>
       )}
       {status === "error" && (
-        <p className="text-center text-destructive">
+        <p className="pb-5 text-center text-destructive">
           An error occurred while loading comments.
         </p>
       )}
-      <div className="divide-y">
-        {comments.map((comment) => (
-          <Comment key={comment.id} comment={comment} />
-        ))}
-      </div>
     </div>
   );
 };

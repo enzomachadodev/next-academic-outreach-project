@@ -36,7 +36,7 @@ export const PostMoreButton = ({ post, className }: PostMoreButtonProps) => {
             onClick={() => setShowDeleteDialog(true)}
           >
             <Trash2 />
-            <span>Apagar publicação</span>
+            <span>Delete post</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -2,7 +2,7 @@ import "./globals.css";
 
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { extractRouterConfig } from "uploadthing/server";
 
 import { ReactQueryProvider } from "@/components/providers/react-query-provider";
@@ -11,7 +11,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 import { fileRouter } from "./api/uploadthing/core";
 
-const fontSans = Inter({
+const fontSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
 });
