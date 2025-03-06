@@ -20,11 +20,7 @@ export const SearchField = () => {
   return (
     <form onSubmit={handleSubmit} method="GET" action="/search">
       <div className="relative">
-        <Input
-          name="q"
-          placeholder="Pesquisar..."
-          className="pe-10 shadow-none"
-        />
+        <Input name="q" placeholder="Search..." className="pe-10 shadow-none" />
         <SearchIcon className="absolute right-4 top-1/2 size-5 -translate-y-1/2 transform text-muted-foreground" />
       </div>
     </form>
