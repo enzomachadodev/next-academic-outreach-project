@@ -15,17 +15,22 @@ export default async function authMiddleware(request: NextRequest) {
   const isPublicRoute = publicRoutes.some((route) =>
     pathname.startsWith(route),
   );
+
   const isAuthRoute = authRoutes.includes(pathname);
 
   try {
-    const session = await apiInstance
-      .get("api/auth/get-session", {
-        prefixUrl: process.env.BETTER_AUTH_URL,
-        headers: {
-          cookie: request.headers.get("cookie") || "",
-        },
-      })
-      .json<Session>();
+    let session: Session | null = null;
+
+    const response = await apiInstance.get("api/auth/get-session", {
+      prefixUrl: process.env.BETTER_AUTH_URL,
+      headers: {
+        cookie: request.headers.get("cookie") || "",
+      },
+    });
+
+    if (response.ok) {
+      session = await response.json<Session>();
+    }
 
     if (!session) {
       if (isAuthRoute || isPublicRoute) {
@@ -52,5 +57,7 @@ export default async function authMiddleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|.*\\.png$|.*\\.svg$|.*\\.ico$).*)",
+  ],
 };

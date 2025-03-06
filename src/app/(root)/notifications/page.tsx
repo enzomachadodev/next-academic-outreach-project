@@ -1,10 +1,12 @@
 import { Metadata } from "next";
 
+import { Notifications } from "@/features/notifications/components/notifications";
+
 export const metadata: Metadata = {
   title: "Notifications",
 };
 
-const Notifications = () => {
+const Page = () => {
   return (
     <main className="flex w-full min-w-0 gap-5">
       <div className="w-full min-w-0 space-y-5">
@@ -18,4 +20,4 @@ const Notifications = () => {
   );
 };
 
-export default Notifications;
+export default Page;

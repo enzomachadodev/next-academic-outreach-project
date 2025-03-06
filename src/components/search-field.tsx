@@ -3,9 +3,9 @@
 import { SearchIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { Input } from "../ui/input";
+import { Input } from "./ui/input";
 
-export const SearchBar = () => {
+export const SearchField = () => {
   const router = useRouter();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -20,8 +20,12 @@ export const SearchBar = () => {
   return (
     <form onSubmit={handleSubmit} method="GET" action="/search">
       <div className="relative">
-        <Input name="q" placeholder="Pesquisar..." className="pe-10" />
-        <SearchIcon className="absolute right-3 top-1/2 size-5 -translate-y-1/2 transform text-muted-foreground" />
+        <Input
+          name="q"
+          placeholder="Pesquisar..."
+          className="pe-10 shadow-none"
+        />
+        <SearchIcon className="absolute right-4 top-1/2 size-5 -translate-y-1/2 transform text-muted-foreground" />
       </div>
     </form>
   );

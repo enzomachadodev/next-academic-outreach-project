@@ -61,6 +61,7 @@ export const UserButton = ({ className }: UserButtonProps) => {
           <UserAvatar
             name={session?.user.name || ""}
             image={session?.user.image || ""}
+            className="size-11"
           />
         </button>
       </DropdownMenuTrigger>

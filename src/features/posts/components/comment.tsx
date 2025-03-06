@@ -17,7 +17,6 @@ interface CommentProps {
 export const Comment = ({ comment }: CommentProps) => {
   const { data: session } = useSession();
 
-  console.log(comment.user.id === session?.user.id);
   return (
     <div className="group/comment flex gap-4 py-4">
       <span className="hidden sm:inline">

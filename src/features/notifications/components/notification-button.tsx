@@ -28,21 +28,21 @@ export const NotificationsButton = ({
 
   return (
     <Button
-      variant="ghost"
-      className="flex items-center justify-start gap-3"
+      variant="outline"
+      className="flex size-11 items-center justify-center gap-3 rounded-full"
       title="Notifications"
       asChild
     >
       <Link href="/notifications">
         <div className="relative">
-          <Bell />
+          <Bell className="size-8" />
           {!!data.unreadCount && (
             <span className="absolute -right-1 -top-1 rounded-full bg-primary px-1 text-xs font-medium tabular-nums text-primary-foreground">
               {data.unreadCount}
             </span>
           )}
         </div>
-        <span className="hidden lg:inline">Notifications</span>
+        <span className="sr-only hidden lg:inline">Notifications</span>
       </Link>
     </Button>
   );

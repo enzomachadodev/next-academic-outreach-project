@@ -1,7 +1,6 @@
 "use server";
 
 import { headers } from "next/headers";
-import { cache } from "react";
 
 import { getErrorMessage } from "@/lib/handle-error";
 
@@ -50,10 +49,10 @@ export const register = async (input: RegisterSchema) => {
   }
 };
 
-export const getSession = cache(async () => {
+export const getSession = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   return session;
-});
+};
