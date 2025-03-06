@@ -37,9 +37,9 @@ export const NotificationsButton = ({
         <div className="relative">
           <Bell className="size-8" />
           {!!data.unreadCount && (
-            <span className="absolute -right-1 -top-1 rounded-full bg-primary px-1 text-xs font-medium tabular-nums text-primary-foreground">
+            <div className="absolute -right-4 -top-4 flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-[2px] text-xs font-semibold tabular-nums text-primary-foreground">
               {data.unreadCount}
-            </span>
+            </div>
           )}
         </div>
         <span className="sr-only hidden lg:inline">Notifications</span>
