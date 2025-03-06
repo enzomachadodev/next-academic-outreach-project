@@ -19,9 +19,8 @@ export const AddAttachmentsButton = ({
   return (
     <>
       <Button
-        variant="ghost"
-        size="icon"
-        className="text-primary hover:text-primary"
+        variant="outline"
+        className="size-11 text-primary hover:text-primary"
         disabled={disabled}
         onClick={() => fileInputRef.current?.click()}
       >

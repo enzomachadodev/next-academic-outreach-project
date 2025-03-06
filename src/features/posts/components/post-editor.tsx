@@ -4,13 +4,11 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useDropzone } from "@uploadthing/react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Paperclip, SendHorizontal } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useSession } from "@/features/auth/lib/auth-client";
-import { UserAvatar } from "@/features/users/components/user-avatar";
 import { useMediaUpload } from "@/hooks/use-media-upload";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +17,6 @@ import { AddAttachmentsButton } from "./add-attachments-button";
 import { AttachmentPreviews } from "./attachments-preview";
 
 export const PostEditor = () => {
-  const { data: session } = useSession();
   const { mutate, isPending } = useSubmitPostMutation();
 
   const {
@@ -45,7 +42,7 @@ export const PostEditor = () => {
         italic: false,
       }),
       Placeholder.configure({
-        placeholder: "O que você está pensando?",
+        placeholder: "What’s on your mind right now?",
       }),
     ],
     immediatelyRender: false,
@@ -82,17 +79,13 @@ export const PostEditor = () => {
   return (
     <Card>
       <CardContent className="space-y-6 pt-6">
-        <div className="flex gap-6">
-          <UserAvatar
-            name={session?.user.name || ""}
-            image={session?.user.image || ""}
-            className="hidden size-[70px] sm:inline"
-          />
+        <div className="flex gap-2">
+          <Paperclip className="size-5 text-muted-foreground" />
           <div {...rootProps} className="w-full">
             <EditorContent
               editor={editor}
               className={cn(
-                "max-h-60 min-h-14 w-full rounded-md border border-input bg-transparent p-6 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+                "max-h-60 min-h-16 w-full overflow-y-auto bg-transparent text-base placeholder:font-semibold placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 disabled:opacity-50 focus-visible:disabled:cursor-not-allowed md:text-sm",
                 isDragActive && "outline-dashed",
               )}
               onPaste={onPaste}
@@ -106,7 +99,7 @@ export const PostEditor = () => {
             />
           )}
         </div>
-        <div className="flex w-full justify-end">
+        <div className="flex w-full justify-end gap-4">
           {isUploading && (
             <>
               <span className="text-sm">{uploadProgress || 0}%</span>
@@ -118,12 +111,12 @@ export const PostEditor = () => {
             disabled={isUploading || attachments.length >= 5 || isPending}
           />
           <Button
-            size="lg"
             onClick={onSubmit}
             disabled={!input.trim() || isUploading}
             loading={isPending}
           >
-            Publicar
+            Post
+            <SendHorizontal />
           </Button>
         </div>
       </CardContent>
