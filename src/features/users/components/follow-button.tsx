@@ -44,9 +44,7 @@ export const FollowButton = ({ userId, initialState }: FollowButtonProps) => {
     onError(error, variables, context) {
       queryClient.setQueryData(queryKey, context?.previousState);
       console.error(error);
-      toast.error(
-        "Algo de errado aconteceu. Por favor, tente novamente mais tarde.",
-      );
+      toast.error("Something went wrong. Please try again later.");
     },
   });
 
@@ -55,7 +53,7 @@ export const FollowButton = ({ userId, initialState }: FollowButtonProps) => {
       onClick={() => mutate()}
       variant={data.isFollowedByUser ? "secondary" : "default"}
     >
-      {data.isFollowedByUser ? "Seguindo" : "Seguir"}
+      {data.isFollowedByUser ? "Following" : "Follow"}
     </Button>
   );
 };

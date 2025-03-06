@@ -30,8 +30,8 @@ export const UsersToKnow = async () => {
 
   return (
     <Card className="h-fit w-full">
-      <CardHeader>
-        <CardTitle>Sugestões de Empreendedores</CardTitle>
+      <CardHeader className="border-none pb-0">
+        <CardTitle className="text-xl">Entrepreneur Suggestions</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         {users.map((user) => (

@@ -58,12 +58,12 @@ export const useMediaUpload = () => {
 
   const handleStartUpload = (files: File[]) => {
     if (isUploading) {
-      toast.error("Por favor, aguarde o carregamento atual terminar.");
+      toast.error("Please wait for the current loading to finish.");
       return;
     }
 
     if (attachments.length + files.length > 5) {
-      toast.error("É permitido no máximo 5 anexos por publicação");
+      toast.error("A maximum of 5 attachments per post is allowed.");
       return;
     }
 

@@ -1,18 +1,18 @@
 import { z } from "zod";
 
-export const stringSchema = z.string().trim().min(1, "Campo obrigatório");
+export const stringSchema = z.string().trim().min(1);
 
 export const passwordSchema = z
   .string()
-  .min(8, "A senha deve ter no mínimo 8 caracteres");
+  .min(8, "Password must be at least 8 characters long");
 
 export const idSchema = stringSchema;
 
-export const emailSchema = stringSchema.email("Email inválido");
+export const emailSchema = stringSchema.email();
 
 export const usernameSchema = stringSchema.regex(
   /^[a-zA-Z0-9_-]+$/,
-  "Apenas letras, números, - e _ são permitidos",
+  "Only letters, numbers, - and _ are allowed",
 );
 
-export const urlSchema = stringSchema.url("URL inválida");
+export const urlSchema = stringSchema.url();

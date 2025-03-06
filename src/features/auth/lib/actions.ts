@@ -23,7 +23,7 @@ export const login = async (input: LoginSchema) => {
       },
     });
 
-    return { success: "Login efetuado com sucesso!" };
+    return { success: "Login successful!" };
   } catch (error) {
     console.log(error);
     return {
@@ -40,7 +40,7 @@ export const register = async (input: RegisterSchema) => {
       body: validatedFields,
     });
 
-    return { success: "Conta criada com sucesso!" };
+    return { success: "Account created successfully!" };
   } catch (error) {
     console.error(error);
     return {

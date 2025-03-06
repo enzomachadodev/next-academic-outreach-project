@@ -52,7 +52,7 @@ export const ForYouFeed = () => {
   if (status === "success" && !posts.length && !hasNextPage) {
     return (
       <p className="text-center text-muted-foreground">
-        Nenhuma publicação encontrada.
+        No publications found.
       </p>
     );
   }
@@ -60,7 +60,7 @@ export const ForYouFeed = () => {
   if (status === "error") {
     return (
       <p className="text-center text-destructive">
-        Ocorreu um erro ao carregar as postagens.
+        An error occurred while loading posts.
       </p>
     );
   }
@@ -76,7 +76,7 @@ export const ForYouFeed = () => {
       {isFetchingNextPage && <Loader2 className="mx-auto animate-spin" />}
       {!hasNextPage && (
         <p className="text-center text-muted-foreground">
-          Isso é tudo, pessoal! 🐰
+          You have reached the end of the page.
         </p>
       )}
     </InfiniteScrollContainer>

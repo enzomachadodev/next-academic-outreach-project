@@ -72,7 +72,7 @@ export const useSubmitPostMutation = () => {
         },
       });
 
-      toast.success("Postagem criada com sucesso!");
+      toast.success("Post created successfully!");
     },
     onError: (error) => {
       console.error(error);
@@ -113,7 +113,7 @@ export const useDeletePostMutation = () => {
           };
         },
       );
-      toast.success("Post deletado com sucesso!");
+      toast.success("Post deleted successfully!");
 
       if (pathname === `/posts/${deletedPost.id}`) {
         router.push("/feed");
@@ -121,9 +121,7 @@ export const useDeletePostMutation = () => {
     },
     onError: (error) => {
       console.error(error);
-      toast.error(
-        "Error ao deletar postagem. Por favor, tente novamente mais tarde.",
-      );
+      toast.error("Error deleting post. Please try again later.");
     },
   });
 

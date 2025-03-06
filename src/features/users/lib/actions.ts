@@ -30,7 +30,7 @@ export const getUser = cache(
 export const updateUserProfile = async (input: UpdateUserProfileSchema) => {
   const session = await getSession();
 
-  if (!session) throw Error("Não autorizado");
+  if (!session) throw Error("Unauthorized");
 
   const validatedFields = updateUserProfileSchema.parse(input);
 

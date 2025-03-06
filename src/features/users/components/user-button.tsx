@@ -66,12 +66,12 @@ export const UserButton = ({ className }: UserButtonProps) => {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Logado como {session?.user.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>Logged in as {session?.user.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href={`/profile/${session?.user.username}`}>
           <DropdownMenuItem>
             <UserIcon className="mr-2 size-4" />
-            Perfil
+            Profile
           </DropdownMenuItem>
         </Link>
         <DropdownMenuSub>
@@ -99,14 +99,14 @@ export const UserButton = ({ className }: UserButtonProps) => {
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
-        <Link href="/settings">
+        <Link href="">
           <DropdownMenuItem>
-            <Settings className="mr-2 size-4" /> Configurações
+            <Settings className="mr-2 size-4" /> Settings
           </DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
-          <LogOutIcon className="mr-2 size-4" /> Sair
+          <LogOutIcon className="mr-2 size-4" /> Logout
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

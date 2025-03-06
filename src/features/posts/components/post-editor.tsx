@@ -63,7 +63,7 @@ export const PostEditor = () => {
         onSuccess: () => {
           editor?.commands.clearContent();
           resetMediaUploads();
-          toast.success("Postagem criada com sucesso!");
+          toast.success("Post created successfully!");
         },
       },
     );

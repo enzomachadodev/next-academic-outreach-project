@@ -18,7 +18,7 @@ import {
 export const submitPost = async (input: CreatePostSchema) => {
   const session = await getSession();
 
-  if (!session) throw Error("Não autorizado");
+  if (!session) throw Error("Unauthorized");
 
   const { content, mediaIds } = createPostSchema.parse(input);
 
@@ -39,7 +39,7 @@ export const submitPost = async (input: CreatePostSchema) => {
 export const deletePost = async (input: DeletePostSchema) => {
   const session = await getSession();
 
-  if (!session) throw Error("Não autorizado");
+  if (!session) throw Error("Unauthorized");
 
   const { postId } = deletePostSchema.parse(input);
 
@@ -47,9 +47,9 @@ export const deletePost = async (input: DeletePostSchema) => {
     where: { id: postId },
   });
 
-  if (!postExists) throw new Error("Post não encontrado");
+  if (!postExists) throw new Error("Post not found");
 
-  if (postExists.userId !== session.user.id) throw new Error("Não autorizado");
+  if (postExists.userId !== session.user.id) throw new Error("Unauthorized");
 
   const deletedPost = await db.post.delete({
     where: { id: postId },
@@ -62,7 +62,7 @@ export const deletePost = async (input: DeletePostSchema) => {
 export const submitComment = async (input: CreateCommentSchema) => {
   const session = await getSession();
 
-  if (!session) throw new Error("Não autorizado!");
+  if (!session) throw new Error("Unauthorized!");
 
   const { user } = session;
 
@@ -73,7 +73,7 @@ export const submitComment = async (input: CreateCommentSchema) => {
     select: { userId: true },
   });
 
-  if (!post) throw new Error("Post não encontrado");
+  if (!post) throw new Error("Post not found");
 
   const [newComment] = await db.$transaction([
     db.comment.create({
@@ -104,7 +104,7 @@ export const submitComment = async (input: CreateCommentSchema) => {
 export async function deleteComment(input: DeleteCommentSchema) {
   const session = await getSession();
 
-  if (!session) throw new Error("Não autorizado!");
+  if (!session) throw new Error("Unauthorized!");
 
   const { user } = session;
 
@@ -117,7 +117,7 @@ export async function deleteComment(input: DeleteCommentSchema) {
 
   if (!comment) throw new Error("Comentário não encontrado");
 
-  if (comment.userId !== user.id) throw new Error("Não autorizado");
+  if (comment.userId !== user.id) throw new Error("Unauthorized");
 
   const deletedComment = await db.comment.delete({
     where: { id: commentId },

@@ -22,7 +22,7 @@ export const EditProfileButton = ({ user }: EditProfileButtonProps) => {
         className="absolute right-4 top-4"
         onClick={() => setShowDialog(true)}
       >
-        Editar Perfil
+        Edit Profile
         <Edit />
       </Button>
       <EditProfileDialog

@@ -74,7 +74,7 @@ export const EditProfileDialog = ({
         onSuccess: () => {
           setCroppedAvatar(null);
           onOpenChange(false);
-          toast.success("Informações do perfil atualizadas com sucesso!");
+          toast.success("Your profile has been successfully updated!");
         },
         onError(error) {
           setError(error.message);
@@ -88,7 +88,7 @@ export const EditProfileDialog = ({
       <DialogTrigger></DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Editar Perfil</DialogTitle>
+          <DialogTitle>Edit Profile</DialogTitle>
         </DialogHeader>
         <div className="-space-y-1.5">
           <Label>Avatar</Label>
@@ -108,10 +108,10 @@ export const EditProfileDialog = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="João da Silva"
+                      placeholder="John Doe"
                       disabled={isPending}
                       {...field}
                     />
@@ -125,10 +125,10 @@ export const EditProfileDialog = ({
               name="bio"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Sobre</FormLabel>
+                  <FormLabel>About</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Conte sua história e o que você faz..."
+                      placeholder="Tell us your story and what you do..."
                       disabled={isPending}
                       className="h-40 resize-none"
                       {...field}
@@ -142,7 +142,7 @@ export const EditProfileDialog = ({
             {error && <FormStatus type="error" message={error} />}
             <DialogFooter>
               <Button type="submit" className="w-full" loading={isPending}>
-                Salvar informações
+                Save
               </Button>
             </DialogFooter>
           </form>

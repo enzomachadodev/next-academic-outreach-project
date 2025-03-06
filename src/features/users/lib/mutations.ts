@@ -73,12 +73,12 @@ export const useUpdateUserProfileMutation = () => {
       );
       router.refresh();
 
-      toast.success("Perfil atualizado com sucesso!");
+      toast.success("Your profile has been successfully updated.");
     },
     onError(error) {
       console.error(error);
       toast.error(
-        "Ocorreu um erro ao atualizar o perfil. Por favor, tente novamente mais tarde",
+        "There was an error updating your profile. Please try again later.",
       );
     },
   });
