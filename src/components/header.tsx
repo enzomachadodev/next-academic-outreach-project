@@ -4,6 +4,7 @@ import { UserButton } from "@/features/users/components/user-button";
 import { db } from "@/lib/db";
 
 import { Logo } from "./logo";
+import { MobileMenu } from "./mobile-menu";
 import { SearchField } from "./search-field";
 
 export const Header = async () => {
@@ -19,19 +20,22 @@ export const Header = async () => {
     : 0;
 
   return (
-    <header className="sticky left-0 top-0 z-10 w-full border-b border-muted bg-background py-4">
+    <header className="sticky left-0 top-0 z-10 w-full border-b bg-background py-4">
       <div className="wrapper flex items-center justify-between">
         <div className="inline-flex items-center gap-4">
           <Logo />
         </div>
         {session && (
-          <div className="inline-flex items-center gap-4">
-            <SearchField />
-            <NotificationsButton
-              initialState={{ unreadCount: unreadNotificationsCount }}
-            />
-            <UserButton />
-          </div>
+          <>
+            <MobileMenu />
+            <div className="hidden items-center gap-4 lg:flex">
+              <SearchField />
+              <NotificationsButton
+                initialState={{ unreadCount: unreadNotificationsCount }}
+              />
+              <UserButton />
+            </div>
+          </>
         )}
       </div>
     </header>

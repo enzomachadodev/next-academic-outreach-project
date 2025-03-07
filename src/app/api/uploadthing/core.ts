@@ -1,11 +1,12 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError, UTApi } from "uploadthing/server";
 
+import { env } from "@/config/env";
 import { getSession } from "@/features/auth/lib/actions";
 import { db } from "@/lib/db";
 
 export const utapi = new UTApi({
-  token: process.env.UPLOADTHING_TOKEN,
+  token: env.UPLOADTHING_TOKEN,
   defaultKeyType: "fileKey",
 });
 

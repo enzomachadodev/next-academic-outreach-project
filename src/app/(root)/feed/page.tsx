@@ -1,6 +1,12 @@
+import { Metadata } from "next";
+
 import { TrendsSidebar } from "@/components/trends-sidebar";
 import { ForYouFeed } from "@/features/posts/components/for-you-feed";
 import { PostEditor } from "@/features/posts/components/post-editor";
+
+export const metadata: Metadata = {
+  title: "Feed",
+};
 
 const Feed = () => {
   return (

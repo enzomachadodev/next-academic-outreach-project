@@ -1,12 +1,13 @@
 import { UTApi } from "uploadthing/server";
 
+import { env } from "@/config/env";
 import { db } from "@/lib/db";
 
 export async function GET(req: Request) {
   try {
     const authHeader = req.headers.get("Authorization");
 
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    if (authHeader !== `Bearer ${env.CRON_SECRET}`) {
       return Response.json(
         { message: "Invalid authorization header" },
         { status: 401 },
@@ -16,7 +17,7 @@ export async function GET(req: Request) {
     const unusedMedias = await db.media.findMany({
       where: {
         postId: null,
-        ...(process.env.NODE_ENV === "production"
+        ...(env.NODE_ENV === "production"
           ? {
               createdAt: {
                 lte: new Date(Date.now() - 1000 * 60 * 60 * 24),

@@ -1,10 +1,15 @@
 import { GalleryVerticalEndIcon } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 import { LoginForm } from "@/features/auth/components/login-form";
 
-const Login = () => {
+export const metadata: Metadata = {
+  title: "Login",
+};
+
+const LoginPage = () => {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -34,4 +39,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

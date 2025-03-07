@@ -1,3 +1,4 @@
+import { getSessionCookie } from "better-auth/cookies";
 import { NextRequest, NextResponse } from "next/server";
 
 import {
@@ -5,9 +6,6 @@ import {
   DEFAULT_LOGIN_REDIRECT,
   publicRoutes,
 } from "@/config/routes";
-import { Session } from "@/features/auth/lib/types";
-
-import { apiInstance } from "./lib/api";
 
 export default async function authMiddleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -19,20 +17,9 @@ export default async function authMiddleware(request: NextRequest) {
   const isAuthRoute = authRoutes.includes(pathname);
 
   try {
-    let session: Session | null = null;
+    const sessionCookie = getSessionCookie(request);
 
-    const response = await apiInstance.get("api/auth/get-session", {
-      prefixUrl: process.env.BETTER_AUTH_URL,
-      headers: {
-        cookie: request.headers.get("cookie") || "",
-      },
-    });
-
-    if (response.ok) {
-      session = await response.json<Session>();
-    }
-
-    if (!session) {
+    if (!sessionCookie) {
       if (isAuthRoute || isPublicRoute) {
         return NextResponse.next();
       }

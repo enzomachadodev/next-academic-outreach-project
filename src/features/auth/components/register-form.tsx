@@ -157,7 +157,7 @@ export const RegisterForm = () => {
         Register with GitHub
       </Button>
       <div className="text-center text-sm">
-        Already have an account?
+        Already have an account?{" "}
         <Link href="/login" className="underline underline-offset-4">
           Log in
         </Link>
