@@ -79,18 +79,20 @@ export const PostEditor = () => {
   return (
     <Card>
       <CardContent className="space-y-6 pt-6">
-        <div className="flex gap-2">
-          <Paperclip className="size-5 text-muted-foreground" />
-          <div {...rootProps} className="w-full">
-            <EditorContent
-              editor={editor}
-              className={cn(
-                "max-h-60 min-h-16 w-full overflow-y-auto bg-transparent text-base placeholder:font-semibold placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 disabled:opacity-50 focus-visible:disabled:cursor-not-allowed md:text-sm",
-                isDragActive && "outline-dashed",
-              )}
-              onPaste={onPaste}
-            />
-            <input hidden className="sr-only" {...getInputProps} />
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-2">
+            <Paperclip className="size-5 text-muted-foreground" />
+            <div {...rootProps} className="w-full">
+              <EditorContent
+                editor={editor}
+                className={cn(
+                  "max-h-60 min-h-16 w-full overflow-y-auto bg-transparent text-base placeholder:font-semibold placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 disabled:opacity-50 focus-visible:disabled:cursor-not-allowed md:text-sm",
+                  isDragActive && "outline-dashed",
+                )}
+                onPaste={onPaste}
+              />
+              <input hidden className="sr-only" {...getInputProps} />
+            </div>
           </div>
           {!!attachments.length && (
             <AttachmentPreviews

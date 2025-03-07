@@ -1,8 +1,10 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Bell,
   Check,
+  LogOut,
   Menu,
   Monitor,
   Moon,
@@ -11,14 +13,13 @@ import {
   User,
   X,
 } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { ReactNode, useState } from "react";
 
-import { useSession } from "@/features/auth/lib/auth-client";
+import { signOut, useSession } from "@/features/auth/lib/auth-client";
 import { cn } from "@/lib/utils";
 
-import { MobileLogoutButton } from "./mobile-logout-button";
 import { SearchField } from "./search-field";
 import { Button } from "./ui/button";
 import {
@@ -29,35 +30,88 @@ import {
 } from "./ui/dropdown-menu";
 
 interface SidebarMenuItemProps {
-  href: string;
   label: string;
   icon: ReactNode;
   count?: number;
+  onClick: () => void;
 }
 
 const SidebarMenuItem = ({
-  href,
   label,
   icon,
   count,
+  onClick,
 }: SidebarMenuItemProps) => (
-  <Link href={href}>
-    <li className="flex w-full items-center rounded-xl px-2 py-3 duration-300 hover:bg-muted">
-      <div className="flex items-center gap-3">
-        {icon}
-        <p className="font-medium">{label}</p>
-      </div>
-      <div>{count}</div>
-    </li>
-  </Link>
+  <li
+    className="flex w-full cursor-pointer items-center rounded-xl px-2 py-3 duration-300 hover:bg-muted"
+    onClick={onClick}
+  >
+    <div className="flex items-center gap-3">
+      {icon}
+      <p className="font-medium">{label}</p>
+    </div>
+    {count !== undefined && <div className="ml-auto">{count}</div>}
+  </li>
 );
 
-export const MobileMenu = () => {
-  const { data: session } = useSession();
+const ThemeSelector = () => {
   const { theme, setTheme } = useTheme();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <li className="flex w-full cursor-pointer items-center rounded-xl px-2 py-3 duration-300 hover:bg-muted">
+          <div className="flex items-center gap-3">
+            <Monitor />
+            <p className="font-medium">Theme</p>
+          </div>
+        </li>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuItem onClick={() => setTheme("system")}>
+          <Monitor className="mr-2 size-4" />
+          System default
+          {theme === "system" && <Check className="ml-2 size-4" />}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("light")}>
+          <Sun className="mr-2 size-4" />
+          Light
+          {theme === "light" && <Check className="ml-2 size-4" />}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
+          <Moon className="mr-2 size-4" />
+          Dark
+          {theme === "dark" && <Check className="ml-2 size-4" />}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export const MobileMenu = () => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const handleLogout = async () => {
+    toggleMenu();
+    queryClient.clear();
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login");
+        },
+      },
+    });
+  };
+
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  const menuItemHandleClick = (href: string) => {
+    toggleMenu();
+    router.push(href);
+  };
 
   return (
     <>
@@ -65,6 +119,7 @@ export const MobileMenu = () => {
         className="size-11 lg:hidden"
         variant="outline"
         onClick={toggleMenu}
+        aria-label="Open menu"
       >
         <Menu />
       </Button>
@@ -73,7 +128,8 @@ export const MobileMenu = () => {
         <div
           className="fixed inset-0 z-40 bg-black bg-opacity-50"
           onClick={toggleMenu}
-        ></div>
+          aria-hidden="true"
+        />
       )}
 
       <div
@@ -82,55 +138,46 @@ export const MobileMenu = () => {
           isOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
-        <div className="flex h-full flex-col justify-between gap-4">
-          <div>
-            <Button
-              className="m-4 size-11"
-              variant="outline"
-              onClick={toggleMenu}
-            >
-              <X />
-            </Button>
-            <ul className="flex flex-col gap-2 p-2">
-              <SearchField />
-              <SidebarMenuItem
-                href="/notifications"
-                icon={<Bell />}
-                label="Notifications"
-              />
-              <SidebarMenuItem
-                href={`/profile/${session?.user.username}`}
-                icon={<User />}
-                label="Profile"
-              />
-              <SidebarMenuItem href="" icon={<Settings />} label="Settings" />
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <SidebarMenuItem href="" icon={<Monitor />} label="Theme" />
-                </DropdownMenuTrigger>
-
-                <DropdownMenuContent align="start">
-                  <DropdownMenuItem onClick={() => setTheme("system")}>
-                    <Monitor className="mr-2 size-4" />
-                    System default
-                    {theme === "system" && <Check className="ms-2 size-4" />}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setTheme("light")}>
-                    <Sun className="mr-2 size-4" />
-                    Light
-                    {theme === "light" && <Check className="ms-2 size-4" />}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setTheme("dark")}>
-                    <Moon className="mr-2 size-4" />
-                    Dark
-                    {theme === "dark" && <Check className="ms-2 size-4" />}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </ul>
-          </div>
-          <MobileLogoutButton />
+        <div className="flex justify-start p-4">
+          <Button
+            className="size-11"
+            variant="outline"
+            onClick={toggleMenu}
+            aria-label="Close menu"
+          >
+            <X />
+          </Button>
         </div>
+        <div className="px-4 py-4">
+          <SearchField />
+        </div>
+        <nav aria-label="Mobile navigation">
+          <ul className="flex flex-col gap-2 p-2">
+            <SidebarMenuItem
+              onClick={() => menuItemHandleClick("/notifications")}
+              icon={<Bell />}
+              label="Notifications"
+            />
+            <SidebarMenuItem
+              onClick={() =>
+                menuItemHandleClick(`/profile/${session?.user.username}`)
+              }
+              icon={<User />}
+              label="Profile"
+            />
+            <SidebarMenuItem
+              onClick={() => menuItemHandleClick("/settings")}
+              icon={<Settings />}
+              label="Settings"
+            />
+            <ThemeSelector />
+            <SidebarMenuItem
+              onClick={handleLogout}
+              label="Logout"
+              icon={<LogOut className="text-destructive" />}
+            />
+          </ul>
+        </nav>
       </div>
     </>
   );

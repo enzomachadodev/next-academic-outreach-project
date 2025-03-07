@@ -19,28 +19,26 @@ export const Comment = ({ comment }: CommentProps) => {
 
   return (
     <div className="group/comment flex gap-4 py-4">
-      <span className="hidden sm:inline">
-        <UserTooltip user={comment.user}>
-          <Link href={`/users/${comment.user.username}`}>
-            <UserAvatar
-              image={comment.user.image || ""}
-              name={comment.user.name || ""}
-              className="size-10"
-            />
-          </Link>
-        </UserTooltip>
-      </span>
+      <UserTooltip user={comment.user}>
+        <Link href={`/users/${comment.user.username}`}>
+          <UserAvatar
+            image={comment.user.image || ""}
+            name={comment.user.name || ""}
+            className="size-10"
+          />
+        </Link>
+      </UserTooltip>
       <div>
         <div className="flex items-center gap-1 text-sm">
           <UserTooltip user={comment.user}>
             <Link
               href={`/users/${comment.user.username}`}
-              className="font-medium hover:underline"
+              className="line-clamp-1 max-w-40 font-medium hover:underline md:max-w-max"
             >
               {comment.user.name}
             </Link>
           </UserTooltip>
-          <span className="text-muted-foreground">
+          <span className="hidden text-muted-foreground md:block">
             {formatRelativeDate(comment.createdAt)}
           </span>
         </div>

@@ -80,6 +80,10 @@
     text-rendering: optimizeLegibility;
   }
 
+  main {
+    @apply min-h-[calc(100vh_-_77px)];
+  }
+
   @supports (font: -apple-system-body) and (-webkit-appearance: none) {
     [data-wrapper] {
       @apply min-[1800px]:border-t;

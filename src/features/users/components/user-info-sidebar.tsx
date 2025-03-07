@@ -16,8 +16,8 @@ export const UserInfoSidebar = async ({ user }: UserInfoSidebarProps) => {
 
   return (
     <Card className="h-fit w-full">
-      <CardHeader>
-        <CardTitle>About this user</CardTitle>
+      <CardHeader className="border-none pb-0">
+        <CardTitle className="text-xl">About this user</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <Link href={`/profile/${user.username}`}>

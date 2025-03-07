@@ -31,9 +31,9 @@ const Profile = async ({ params }: PageProps) => {
   if (!user) return notFound();
 
   return (
-    <main className="wrapper flex min-h-screen w-full flex-col gap-4 pt-8 md:gap-8">
+    <main className="wrapper flex w-full flex-col gap-4 pt-8 md:gap-8">
       <UserProfile user={user} loggedUserId={session?.user.id} />
-      <h2 className="text-3xl font-semibold">Publicações</h2>
+      <h2 className="text-3xl font-semibold">{`${user.name.split(" ")[0]}'s posts`}</h2>
       <UserPosts userId={user.id} />
     </main>
   );

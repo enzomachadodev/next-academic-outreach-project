@@ -1,14 +1,20 @@
 /**
- * An array of routes that are acessible to the public
- * These routes do not require authentication
+ * Public routes - accessible for both authenticated and non-authenticated users
+ * These routes don't require authentication
  * @type {string[]}
  */
 
-export const publicRoutes = ["/posts", "/profile"];
+export const publicRoutes = [
+  "/posts/",
+  "/profile/",
+  "/about",
+  "/privacy",
+  "/terms",
+];
 
 /**
- * An array of routes that are used for authentication
- * These routes will redirect logged in users to /settings
+ * Auth routes - redirect to dashboard if user is already logged in
+ * These routes are accessible only for non-authenticated users
  * @type {string[]}
  */
 
@@ -24,7 +30,7 @@ export const authRoutes = ["/", "/login", "/register"];
 export const apiAuthPrefix = "/api/auth";
 
 /**
- * The default redirect path after loggin in
+ * Default redirect path after successful login
  * @type {string}
  */
 

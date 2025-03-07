@@ -66,7 +66,9 @@ export const UserButton = ({ className }: UserButtonProps) => {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Logged in as {session?.user.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          Logged in as {session?.user.name.split(" ")[0]}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href={`/profile/${session?.user.username}`}>
           <DropdownMenuItem>

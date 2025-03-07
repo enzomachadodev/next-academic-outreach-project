@@ -39,7 +39,15 @@ export const DeleteCommentDialog = ({
             undone.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="flex-row justify-end gap-2">
+          <Button
+            variant="outline"
+            onClick={onClose}
+            disabled={mutation.isPending}
+          >
+            Cancel
+          </Button>
+
           <Button
             variant="destructive"
             onClick={() =>
@@ -48,13 +56,6 @@ export const DeleteCommentDialog = ({
             loading={mutation.isPending}
           >
             Delete
-          </Button>
-          <Button
-            variant="outline"
-            onClick={onClose}
-            disabled={mutation.isPending}
-          >
-            Cancel
           </Button>
         </DialogFooter>
       </DialogContent>

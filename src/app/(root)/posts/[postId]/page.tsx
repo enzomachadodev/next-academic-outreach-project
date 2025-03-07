@@ -53,7 +53,7 @@ const Page = async ({ params }: PageProps) => {
   const post = await getPost(postId, session?.user.id);
 
   return (
-    <main className="wrapper grid min-h-screen w-full grid-cols-1 gap-8 pt-8 lg:grid-cols-3">
+    <main className="wrapper grid w-full grid-cols-1 gap-8 pt-8 lg:grid-cols-3">
       <div className="col-span-1 flex w-full flex-col gap-4 sm:gap-8 lg:col-span-2">
         <PostCard post={post} />
       </div>

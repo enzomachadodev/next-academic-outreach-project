@@ -34,7 +34,7 @@ export const Comments = ({ post }: CommentsProps) => {
   const comments = data?.pages.flatMap((page) => page.comments) || [];
 
   return (
-    <div className="space-y-5 p-5 pb-0">
+    <div className="space-y-4 p-4 pb-0 sm:p-5">
       <CommentInput post={post} />
       {hasNextPage && (
         <Button

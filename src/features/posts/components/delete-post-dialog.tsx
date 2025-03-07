@@ -45,7 +45,7 @@ export const DeletePostDialog = ({
           Are you sure you want to delete this post? This action cannot be
           undone.
         </DialogDescription>
-        <DialogFooter>
+        <DialogFooter className="flex-row justify-end gap-2">
           <Button
             variant="destructive"
             onClick={handleDeletePost}
