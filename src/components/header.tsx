@@ -29,7 +29,10 @@ export const Header = async () => {
           <>
             <MobileMenu />
             <div className="hidden items-center gap-4 lg:flex">
-              <SearchField />
+              <SearchField
+                inputStyle="w-96"
+                placeholder="Search for posts, friends, companies..."
+              />
               <NotificationsButton
                 initialState={{ unreadCount: unreadNotificationsCount }}
               />

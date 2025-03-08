@@ -8,10 +8,16 @@ import { cn } from "@/lib/utils";
 import { Input } from "./ui/input";
 
 interface SearchFieldProps {
-  className?: string;
+  containerStyle?: string;
+  inputStyle?: string;
+  placeholder?: string;
 }
 
-export const SearchField = ({ className }: SearchFieldProps) => {
+export const SearchField = ({
+  containerStyle,
+  inputStyle,
+  placeholder = "Search...",
+}: SearchFieldProps) => {
   const router = useRouter();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -26,8 +32,12 @@ export const SearchField = ({ className }: SearchFieldProps) => {
 
   return (
     <form onSubmit={handleSubmit} method="GET" action="/search">
-      <div className={cn("relative", className)}>
-        <Input name="q" placeholder="Search..." className="pe-10 shadow-none" />
+      <div className={cn("relative", containerStyle)}>
+        <Input
+          name="q"
+          placeholder={placeholder}
+          className={cn("pe-10 shadow-none", inputStyle)}
+        />
         <SearchIcon className="absolute right-4 top-1/2 size-5 -translate-y-1/2 transform text-muted-foreground" />
       </div>
     </form>
