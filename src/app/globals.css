@@ -125,6 +125,10 @@
     @apply flex min-h-[530px] w-full flex-col items-center justify-center bg-primary px-6 py-10 text-center text-primary-foreground;
   }
 
+  .page-title {
+    @apply line-clamp-2 break-all text-center text-2xl font-bold;
+  }
+
   .heading {
     @apply my-5 max-w-5xl text-center text-[36px] font-medium leading-[46px] sm:text-[54px] sm:leading-[64px];
   }
