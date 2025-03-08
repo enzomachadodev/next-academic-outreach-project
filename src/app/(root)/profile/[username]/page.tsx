@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { TrendsSidebar } from "@/components/trends-sidebar";
+import { PageContainer } from "@/components/page-container";
 import { getSession } from "@/features/auth/lib/actions";
 import { UserPosts } from "@/features/users/components/user-posts";
 import { UserProfileCard } from "@/features/users/components/user-profile-card";
@@ -32,14 +32,11 @@ const Profile = async ({ params }: PageProps) => {
   if (!user) return notFound();
 
   return (
-    <main className="wrapper grid w-full grid-cols-1 gap-8 pt-8 lg:grid-cols-3">
-      <div className="col-span-1 flex w-full flex-col gap-8 lg:col-span-2">
-        <UserProfileCard user={user} loggedUserId={session?.user.id} />
-        <h1 className="page-title">{`${user.name.split(" ")[0]}'s posts`}</h1>
-        <UserPosts userId={user.id} />
-      </div>
-      <TrendsSidebar />
-    </main>
+    <PageContainer>
+      <UserProfileCard user={user} loggedUserId={session?.user.id} />
+      <h1 className="page-title">{`${user.name.split(" ")[0]}'s posts`}</h1>
+      <UserPosts userId={user.id} />
+    </PageContainer>
   );
 };
 
