@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
@@ -25,6 +25,8 @@ export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
+  const router = useRouter();
+
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     disabled: isPending,
@@ -38,21 +40,21 @@ export const LoginForm = () => {
     setError("");
     setSuccess("");
     startTransition(async () => {
-      await login(values).then((data) => {
-        if (data?.error) {
-          setError(data.error);
-          return;
-        }
-        if (data?.success) {
-          form.reset();
-          setSuccess(data.success);
-          redirect("/feed");
-        }
-      });
+      const data = await login(values);
+
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+      if (data.success) {
+        form.reset();
+        setSuccess(data.success);
+        router.push("/feed");
+      }
     });
   };
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex w-full max-w-sm flex-col gap-6 py-8">
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-3xl font-bold">Welcome Back!</h1>
         <p className="text-balance text-sm text-muted-foreground">
@@ -109,7 +111,7 @@ export const LoginForm = () => {
           {success && <FormStatus type="success" message={success} />}
           {error && <FormStatus type="error" message={error} />}
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" loading={isPending}>
             Sign in
           </Button>
         </form>

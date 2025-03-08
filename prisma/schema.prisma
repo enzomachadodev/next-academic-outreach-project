@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -39,6 +40,8 @@ model User {
   issuedNotifications   Notification[] @relation("Issuer")
   createdAt             DateTime       @default(now())
   updatedAt             DateTime       @updatedAt
+
+  displayUsername String?
 
   @@map("user")
 }

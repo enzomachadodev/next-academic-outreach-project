@@ -50,7 +50,15 @@ const Page = async ({ params }: PageProps) => {
 
   const session = await getSession();
 
-  const post = await getPost(postId, session?.user.id);
+  if (!session) {
+    return (
+      <p className="text-destructive">
+        You&apos;re not authorized to view this page.
+      </p>
+    );
+  }
+
+  const post = await getPost(postId, session.user.id);
 
   return (
     <main className="wrapper grid w-full grid-cols-1 gap-8 pt-8 lg:grid-cols-3">

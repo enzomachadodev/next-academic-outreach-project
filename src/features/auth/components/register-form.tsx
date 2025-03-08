@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
@@ -23,14 +23,17 @@ import { RegisterSchema, registerSchema } from "../lib/validation";
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
+
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
+  const router = useRouter();
 
   const form = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
     disabled: isPending,
     defaultValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
       username: "",
       email: "",
       password: "",
@@ -42,21 +45,22 @@ export const RegisterForm = () => {
     setSuccess("");
 
     startTransition(async () => {
-      await register(values).then((data) => {
-        if (data?.error) {
-          setError(data?.error);
-          return;
-        }
-        if (data?.success) {
-          form.reset();
-          setSuccess(data?.success);
-          redirect("/feed");
-        }
-      });
+      const data = await register(values);
+
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+      if (data.success) {
+        form.reset();
+        setSuccess(data.success);
+        router.push("/feed");
+      }
     });
   };
+
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex w-full max-w-sm flex-col gap-6 py-8">
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-3xl font-bold">Create your account!</h1>
         <p className="text-balance text-sm text-muted-foreground">
@@ -65,23 +69,34 @@ export const RegisterForm = () => {
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Full Name</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="John Doe"
-                    disabled={isPending}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex items-center gap-4">
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>First name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="John" disabled={isPending} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Last name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Doe" disabled={isPending} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name="username"
@@ -139,7 +154,7 @@ export const RegisterForm = () => {
           {success && <FormStatus type="success" message={success} />}
           {error && <FormStatus type="error" message={error} />}
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" loading={isPending}>
             Register
           </Button>
         </form>

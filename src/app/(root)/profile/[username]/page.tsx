@@ -27,13 +27,21 @@ const Profile = async ({ params }: PageProps) => {
 
   const session = await getSession();
 
-  const user = await getUser(username, session?.user.id);
+  if (!session) {
+    return (
+      <p className="text-destructive">
+        You&apos;re not authorized to view this page.
+      </p>
+    );
+  }
+
+  const user = await getUser(username, session.user.id);
 
   if (!user) return notFound();
 
   return (
     <PageContainer>
-      <UserProfileCard user={user} loggedUserId={session?.user.id} />
+      <UserProfileCard user={user} loggedUserId={session.user.id} />
       <h1 className="page-title">{`${user.name.split(" ")[0]}'s posts`}</h1>
       <UserPosts userId={user.id} />
     </PageContainer>

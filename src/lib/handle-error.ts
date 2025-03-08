@@ -5,7 +5,10 @@ import { ZodError } from "zod";
 export const getErrorMessage = (error: unknown): string => {
   const unknownError = "Something unexpected happened, please try again later.";
 
-  if (error instanceof AuthAPIError) return error.message;
+  if (error instanceof AuthAPIError) {
+    const str = error.message;
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   if (error instanceof ZodError) return "Invalid Fields!";
 

@@ -1,4 +1,4 @@
-import { betterAuth, BetterAuthOptions } from "better-auth";
+import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { username } from "better-auth/plugins";
@@ -18,6 +18,11 @@ export const auth = betterAuth({
       maxAge: 5 * 60,
     },
   },
+  emailAndPassword: {
+    enabled: true,
+    minPasswordLength: 8,
+  },
+  plugins: [username(), nextCookies()],
   user: {
     additionalFields: {
       bio: {
@@ -30,8 +35,4 @@ export const auth = betterAuth({
       },
     },
   },
-  emailAndPassword: {
-    enabled: true,
-  },
-  plugins: [nextCookies(), username()],
-} satisfies BetterAuthOptions);
+});

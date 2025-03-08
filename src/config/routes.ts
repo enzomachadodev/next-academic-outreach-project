@@ -5,8 +5,8 @@
  */
 
 export const publicRoutes = [
-  "/posts/",
-  "/profile/",
+  //   "/posts/",
+  //   "/profile/",
   "/about",
   "/privacy",
   "/terms",

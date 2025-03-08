@@ -3,7 +3,7 @@ import { createAuthClient } from "better-auth/react";
 import { toast } from "sonner";
 
 export const client = createAuthClient({
-  baseURL: "http://localhost:3000",
+  baseURL: process.env.BASE_URL,
   fetchOptions: {
     onError(e) {
       if (e.error.status === 429) {

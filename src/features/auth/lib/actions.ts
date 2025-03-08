@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { cache } from "react";
 
+import { db } from "@/lib/db";
 import { getErrorMessage } from "@/lib/handle-error";
 
 import { auth } from "../lib/auth";
@@ -35,15 +36,32 @@ export const login = async (input: LoginSchema) => {
 
 export const register = async (input: RegisterSchema) => {
   try {
-    const validatedFields = registerSchema.parse(input);
+    const { firstName, lastName, email, password, username } =
+      registerSchema.parse(input);
+
+    const emailExists = await db.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (emailExists)
+      throw new Error("Email is already taken. Please try another.");
+
+    const name = `${firstName} ${lastName}`;
 
     await auth.api.signUpEmail({
-      body: validatedFields,
+      body: {
+        name,
+        email,
+        password,
+        username,
+      },
     });
 
     return { success: "Account created successfully!" };
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return {
       error: getErrorMessage(error),
     };

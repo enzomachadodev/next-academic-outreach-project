@@ -6,12 +6,13 @@ import { cn } from "@/lib/utils";
 interface LogoProps {
   iconStyle?: string;
   textStyle?: string;
+  containerStyle?: string;
 }
 
-export const Logo = ({ iconStyle, textStyle }: LogoProps) => {
+export const Logo = ({ iconStyle, textStyle, containerStyle }: LogoProps) => {
   return (
     <Link href="/" className="h-10">
-      <div className="inline-flex items-center gap-3">
+      <div className={cn("inline-flex items-center gap-3", containerStyle)}>
         <div className={cn("relative size-10", iconStyle)}>
           <Image src="/assets/logo.svg" alt="Entre Connect's Logo" fill />
         </div>
