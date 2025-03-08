@@ -4,7 +4,7 @@ import { PageContainer } from "@/components/page-container";
 import { SearchResults } from "@/features/posts/components/search-results";
 
 interface PageProps {
-  searchParams: { q: string };
+  searchParams: Promise<{ q: string }>;
 }
 
 export async function generateMetadata({
