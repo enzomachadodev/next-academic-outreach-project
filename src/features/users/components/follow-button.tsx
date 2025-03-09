@@ -1,6 +1,7 @@
 "use client";
 
 import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Check, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -53,6 +54,7 @@ export const FollowButton = ({ userId, initialState }: FollowButtonProps) => {
       onClick={() => mutate()}
       variant={data.isFollowedByUser ? "secondary" : "default"}
     >
+      {data.isFollowedByUser ? <Check /> : <Plus />}
       {data.isFollowedByUser ? "Following" : "Follow"}
     </Button>
   );
