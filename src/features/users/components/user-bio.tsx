@@ -39,7 +39,9 @@ export const UserBio = ({ content }: UserBioProps) => {
             <DialogTitle>About me</DialogTitle>
           </DialogHeader>
           <Linkify>
-            <div className="mt-2 text-muted-foreground">{content}</div>
+            <article className="mt-2 whitespace-pre-line break-words">
+              {content}
+            </article>
           </Linkify>
         </DialogContent>
       </Dialog>

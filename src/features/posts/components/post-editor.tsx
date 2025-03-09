@@ -1,16 +1,14 @@
 "use client";
 
-import Placeholder from "@tiptap/extension-placeholder";
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
 import { useDropzone } from "@uploadthing/react";
 import { Loader2, Paperclip, SendHorizontal } from "lucide-react";
+import { useRef } from "react";
 import { toast } from "sonner";
 
+import { TipTapEditor, TipTapEditorRef } from "@/components/tip-tap-editor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useMediaUpload } from "@/hooks/use-media-upload";
-import { cn } from "@/lib/utils";
 
 import { useSubmitPostMutation } from "../lib/mutations";
 import { AddAttachmentsButton } from "./add-attachments-button";
@@ -18,6 +16,7 @@ import { AttachmentPreviews } from "./attachments-preview";
 
 export const PostEditor = () => {
   const { mutate, isPending } = useSubmitPostMutation();
+  const editorRef = useRef<TipTapEditorRef>(null);
 
   const {
     startUpload,
@@ -35,33 +34,17 @@ export const PostEditor = () => {
   // eslint-disable-next-line
   const { onClick, ...rootProps } = getRootProps();
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        bold: false,
-        italic: false,
-      }),
-      Placeholder.configure({
-        placeholder: "What’s on your mind right now?",
-      }),
-    ],
-    immediatelyRender: false,
-  });
-
-  const input =
-    editor?.getText({
-      blockSeparator: "\n",
-    }) || "";
-
   const onSubmit = () => {
+    const content = editorRef.current?.getText() || "";
+
     mutate(
       {
-        content: input,
+        content,
         mediaIds: attachments.map((a) => a.mediaId).filter(Boolean) as string[],
       },
       {
         onSuccess: () => {
-          editor?.commands.clearContent();
+          editorRef.current?.clearContent();
           resetMediaUploads();
           toast.success("Post created successfully!");
         },
@@ -83,14 +66,14 @@ export const PostEditor = () => {
           <div className="flex gap-2">
             <Paperclip className="size-5 text-muted-foreground" />
             <div {...rootProps} className="w-full">
-              <EditorContent
-                editor={editor}
-                className={cn(
-                  "max-h-60 min-h-16 w-full overflow-y-auto bg-transparent text-base placeholder:font-semibold placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 disabled:opacity-50 focus-visible:disabled:cursor-not-allowed md:text-sm",
-                  isDragActive && "outline-dashed",
-                )}
+              <TipTapEditor
+                ref={editorRef}
+                placeholder="What's on your mind right now?"
+                isDragActive={isDragActive}
                 onPaste={onPaste}
+                disabled={isPending}
               />
+
               <input hidden className="sr-only" {...getInputProps} />
             </div>
           </div>
@@ -114,7 +97,7 @@ export const PostEditor = () => {
           />
           <Button
             onClick={onSubmit}
-            disabled={!input.trim() || isUploading}
+            disabled={!editorRef.current?.getText().trim() || isUploading}
             loading={isPending}
           >
             Post

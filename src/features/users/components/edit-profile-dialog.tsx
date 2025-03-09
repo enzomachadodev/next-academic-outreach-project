@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import avatarPlaceholder from "@/assets/avatar-placeholder.svg";
+import { TipTapEditor } from "@/components/tip-tap-editor";
 import { AvatarInput } from "@/components/ui/avatar-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,7 +26,6 @@ import {
 import { FormStatus } from "@/components/ui/form-status";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 
 import { useUpdateUserProfileMutation } from "../lib/mutations";
 import { UserData } from "../lib/types";
@@ -86,12 +86,12 @@ export const EditProfileDialog = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger></DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-3xl">
         <DialogHeader>
           <DialogTitle>Edit Profile</DialogTitle>
         </DialogHeader>
-        <div className="-space-y-1.5">
-          <Label>Avatar</Label>
+        <div>
+          <Label className="mb-2">Avatar</Label>
           <AvatarInput
             src={
               croppedAvatar
@@ -127,18 +127,18 @@ export const EditProfileDialog = ({
                 <FormItem>
                   <FormLabel>About</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Tell us your story and what you do..."
-                      disabled={isPending}
-                      className="h-40 resize-none"
-                      {...field}
-                    />
+                    <div className="w-full">
+                      <TipTapEditor
+                        field={field}
+                        placeholder="Write something about yourself..."
+                        className="min-h-32 rounded-3xl border p-3"
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             {error && <FormStatus type="error" message={error} />}
             <DialogFooter>
               <Button type="submit" className="w-full" loading={isPending}>
