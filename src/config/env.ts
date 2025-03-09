@@ -8,6 +8,8 @@ const envSchema = z.object({
   BETTER_AUTH_SECRET: z.string().min(32),
   UPLOADTHING_TOKEN: z.string().min(1),
   CRON_SECRET: z.string().min(16),
+  GITHUB_CLIENT_ID: z.string(),
+  GITHUB_CLIENT_SECRET: z.string(),
 });
 
 const parsed = envSchema.safeParse(process.env);

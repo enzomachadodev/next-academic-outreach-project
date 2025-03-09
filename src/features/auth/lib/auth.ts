@@ -3,10 +3,12 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { username } from "better-auth/plugins";
 
+import { env } from "@/config/env";
 import { db } from "@/lib/db";
 
 export const auth = betterAuth({
-  appName: "Conexão Empreendedora",
+  appName: env.APP_NAME,
+  secret: env.BETTER_AUTH_SECRET,
   database: prismaAdapter(db, {
     provider: "postgresql",
   }),
@@ -33,6 +35,12 @@ export const auth = betterAuth({
         type: "string",
         required: false,
       },
+    },
+  },
+  socialProviders: {
+    github: {
+      clientId: env.GITHUB_CLIENT_ID as string,
+      clientSecret: env.GITHUB_CLIENT_SECRET as string,
     },
   },
 });
