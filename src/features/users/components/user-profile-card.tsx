@@ -25,7 +25,7 @@ const Metrics = ({ user }: { user: UserData }) => (
     <div className="h-14 w-px bg-muted-foreground" />
     <StatItem count={`${user._count.followers}`} label="Followers" />
     <div className="h-14 w-px bg-muted-foreground" />
-    <StatItem count={`${user._count.followers}`} label="Following" />
+    <StatItem count={`${user._count.following}`} label="Following" />
   </div>
 );
 

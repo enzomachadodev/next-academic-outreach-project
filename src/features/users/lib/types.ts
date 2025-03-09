@@ -22,6 +22,7 @@ export const getUserDataSelect = (loggedInUserId?: string) => {
       select: {
         posts: true,
         followers: true,
+        following: true,
       },
     },
   } satisfies Prisma.UserSelect;
