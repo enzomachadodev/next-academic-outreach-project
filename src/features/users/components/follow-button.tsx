@@ -52,6 +52,7 @@ export const FollowButton = ({ userId, initialState }: FollowButtonProps) => {
   return (
     <Button
       onClick={() => mutate()}
+      className="[&_svg]:size-5"
       variant={data.isFollowedByUser ? "secondary" : "default"}
     >
       {data.isFollowedByUser ? <Check /> : <Plus />}
