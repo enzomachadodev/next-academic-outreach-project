@@ -1,3 +1,5 @@
+import { HandCoins } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 
@@ -64,7 +66,10 @@ export const UserProfileCard = ({ user, loggedUserId }: UserProfileProps) => {
                 ),
               }}
             />
-            <Button>Support</Button>
+            <Button className="[&_svg]:size-5">
+              <HandCoins />
+              Support{" "}
+            </Button>
           </div>
         )}
       </div>
