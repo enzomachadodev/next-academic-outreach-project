@@ -8,7 +8,12 @@ export const metadata: Metadata = {
   title: "Register",
 };
 
-const RegisterPage = () => {
+const RegisterPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ email: string | undefined }>;
+}) => {
+  const { email } = await searchParams;
   return (
     <main className="grid min-h-svh lg:grid-cols-2">
       <div className="relative hidden bg-muted lg:block">
@@ -24,7 +29,7 @@ const RegisterPage = () => {
           <Logo />
         </div>
         <div className="flex flex-1 items-center justify-center">
-          <RegisterForm />
+          <RegisterForm leadEmail={email} />
         </div>
       </div>
     </main>

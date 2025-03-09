@@ -1,11 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import { ActionField } from "@/components/action-field";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
-const Home = () => {
+const HomePage = () => {
   return (
     <>
       <header className="sticky left-0 top-0 z-10 w-full border-b border-muted bg-background py-4">
@@ -24,37 +23,26 @@ const Home = () => {
         </div>
       </header>
 
-      <main className="relative flex h-full flex-col justify-between gap-y-8 pt-20 lg:pt-40">
-        <div className="relative z-10 mx-auto flex max-w-screen-lg flex-col items-center gap-y-6 px-8">
-          <h1 className="text-center text-[32px] font-medium leading-[40px] lg:text-[64px] lg:leading-[72px]">
-            Start monitoring your website like a pro
-          </h1>
+      <main className="relative flex h-full flex-col justify-between pt-20 lg:pt-40">
+        <div className="mx-auto flex max-w-screen-lg flex-col items-center gap-y-6 px-8">
+          <h2 className="text-center text-3xl font-semibold leading-[40px] lg:text-[64px] lg:leading-[72px]">
+            Connect, Grow, Thrive with GrowLink
+          </h2>
           <p className="text-center text-muted-foreground lg:text-[18px] lg:leading-7">
-            Get a birds eye view with our customizable dashboard. Stay on top of
-            things! Revamp your work process with our game-changing feature.
-            Boost productivity and efficiency!
+            Join a vibrant community of entrepreneurs. Network with peers, reach
+            customers, and access resources to boost your business—all in one
+            place.
           </p>
-
-          <div className="flex max-w-lg items-center gap-1 rounded-full border bg-muted p-2 shadow-sm">
-            <Input
-              name="q"
-              placeholder="Enter your Email..."
-              className="no-focus border-none shadow-none"
-            />
-            <Button>Connect Today!</Button>
-          </div>
+          <ActionField />
         </div>
-        <div className="absolute bottom-0 z-0 h-full max-h-[50%] w-full overflow-hidden">
-          <div className="absolute top-0 z-10 h-[30%] w-full bg-gradient-to-b from-background to-transparent"></div>
-          <Image
-            alt="Gradient Hero"
-            src="/assets/gradient.svg"
-            fill
-            className="object-cover"
-          />
+        <div className="relative w-full bg-[url('/assets/gradient.svg')] bg-cover bg-top">
+          <div className="absolute left-0 top-0 h-28 w-full bg-gradient-to-b from-background to-transparent" />
+          <div className="relative z-10 mx-auto mb-40 mt-16 w-full max-w-screen-xl px-8">
+            <div className="relative aspect-video w-full overflow-hidden rounded-3xl border bg-blue-500 shadow-2xl"></div>
+          </div>
         </div>
       </main>
     </>
   );
 };
-export default Home;
+export default HomePage;

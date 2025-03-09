@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -23,7 +23,11 @@ import { register } from "../lib/actions";
 import { signIn } from "../lib/auth-client";
 import { RegisterSchema, registerSchema } from "../lib/validation";
 
-export const RegisterForm = () => {
+interface RegisterFormProps {
+  leadEmail?: string;
+}
+
+export const RegisterForm = ({ leadEmail }: RegisterFormProps) => {
   const [isPending, startTransition] = useTransition();
 
   const [pendingGithub, setPendingGithub] = useState<boolean>(false);
@@ -43,6 +47,12 @@ export const RegisterForm = () => {
       password: "",
     },
   });
+
+  useEffect(() => {
+    if (leadEmail) {
+      form.setValue("email", leadEmail);
+    }
+  }, [leadEmail]);
 
   const onSubmit = async (values: RegisterSchema) => {
     setError("");
