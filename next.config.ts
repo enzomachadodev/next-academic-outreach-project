@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
         hostname: "utfs.io",
         pathname: "/f/*",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/*",
+      },
+      {
+        protocol: "https",
+        hostname: "plus.unsplash.com",
+        pathname: "/*",
+      },
     ],
   },
   rewrites: () => {
