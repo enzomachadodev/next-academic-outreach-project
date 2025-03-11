@@ -1,33 +1,16 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  Bell,
-  Check,
-  LogOut,
-  Menu,
-  Monitor,
-  Moon,
-  Settings,
-  Sun,
-  User,
-  X,
-} from "lucide-react";
+import { Bell, LogOut, Menu, Settings, User, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useTheme } from "next-themes";
 import { ReactNode, useState } from "react";
 
 import { signOut, useSession } from "@/features/auth/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 import { SearchField } from "./search-field";
+import { ThemeSelector } from "./theme-selector";
 import { Button } from "./ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
 
 interface SidebarMenuItemProps {
   label: string;
@@ -53,40 +36,6 @@ const SidebarMenuItem = ({
     {count !== undefined && <div className="ml-auto">{count}</div>}
   </li>
 );
-
-const ThemeSelector = () => {
-  const { theme, setTheme } = useTheme();
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <li className="flex w-full cursor-pointer items-center rounded-xl px-2 py-3 duration-300 hover:bg-muted">
-          <div className="flex items-center gap-3">
-            <Monitor />
-            <p className="font-medium">Theme</p>
-          </div>
-        </li>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          <Monitor className="mr-2 size-4" />
-          System default
-          {theme === "system" && <Check className="ml-2 size-4" />}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          <Sun className="mr-2 size-4" />
-          Light
-          {theme === "light" && <Check className="ml-2 size-4" />}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          <Moon className="mr-2 size-4" />
-          Dark
-          {theme === "dark" && <Check className="ml-2 size-4" />}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};
 
 export const MobileMenu = () => {
   const router = useRouter();
