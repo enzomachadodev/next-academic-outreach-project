@@ -26,19 +26,6 @@ const posts: {
   },
   {
     content:
-      "Struggling to keep my coffee shop afloat this month. Could use some advice on affordable marketing strategies!\n\n#SmallBusiness #Entrepreneur #Sustainable",
-    comments: [
-      "Try posting on local Facebook groups—it worked for me!",
-      "Have you considered a loyalty card program?",
-    ],
-    images: [
-      "https://images.unsplash.com/photo-1599229809585-f92ea053b547?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1532713107108-dfb5d8d2fc42?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    ],
-    likes: 8,
-  },
-  {
-    content:
       "Excited to share my new line of recycled fabric bags!\n\n#SmallBusiness #Entrepreneur #Sustainable",
     comments: [
       "These look amazing! Where can I buy one?",
@@ -404,7 +391,20 @@ const posts: {
       "🎨 My latest artwork is now available for purchase! 🎨\n\nEach piece tells a unique story, inspired by nature, emotions, and the beauty of everyday life. Creating art has always been my passion, and I'm so happy to share my work with the world. 🌎💛\n\nI’d love to hear your thoughts! Which colors or styles resonate with you the most? Let’s talk art! 🖌️\n\n#Artist #HandmadeArt #CreativeJourney #SupportSmallArtists",
     comments: ["That’s wonderful!", "Where can I see the collection?"],
     images: [
-      "https://images.unsplash.com/photo-1677064731327-e084d977515d?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1677609898243-63280b6c89a1?q=80&w=1283&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ],
+    likes: 8,
+  },
+  {
+    content:
+      "Struggling to keep my coffee shop afloat this month. Could use some advice on affordable marketing strategies!\n\n#SmallBusiness #Entrepreneur #Sustainable",
+    comments: [
+      "Try posting on local Facebook groups—it worked for me!",
+      "Have you considered a loyalty card program?",
+    ],
+    images: [
+      "https://images.unsplash.com/photo-1599229809585-f92ea053b547?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1532713107108-dfb5d8d2fc42?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     ],
     likes: 8,
   },
