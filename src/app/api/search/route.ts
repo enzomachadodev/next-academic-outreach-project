@@ -27,12 +27,14 @@ export async function GET(req: NextRequest) {
           {
             content: {
               contains: searchQuery,
+              mode: "insensitive",
             },
           },
           {
             user: {
               name: {
                 contains: searchQuery,
+                mode: "insensitive",
               },
             },
           },
@@ -40,6 +42,7 @@ export async function GET(req: NextRequest) {
             user: {
               username: {
                 contains: searchQuery,
+                mode: "insensitive",
               },
             },
           },
