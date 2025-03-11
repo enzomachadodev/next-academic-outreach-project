@@ -18,6 +18,7 @@ interface TipTapEditorProps {
   // eslint-disable-next-line
   field?: ControllerRenderProps<any, any>;
   disabled?: boolean;
+  onUpdate?: (content: string) => void;
 }
 export interface TipTapEditorRef {
   editor: Editor | null;
@@ -38,6 +39,7 @@ const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(
       onPaste,
       field,
       disabled = false,
+      onUpdate,
     },
     ref,
   ) => {
@@ -52,13 +54,19 @@ const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(
         }),
         ...extensions,
       ],
+      immediatelyRender: false,
       content: field?.value || "",
       autofocus: autoFocus,
       editable: !disabled,
       onUpdate: ({ editor }) => {
+        const text = editor.getText({ blockSeparator: "\n" });
+
         if (field) {
-          const text = editor.getText({ blockSeparator: "\n" });
           field.onChange(text);
+        }
+
+        if (onUpdate) {
+          onUpdate(text);
         }
       },
       onBlur: () => {

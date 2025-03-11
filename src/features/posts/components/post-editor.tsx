@@ -2,7 +2,7 @@
 
 import { useDropzone } from "@uploadthing/react";
 import { Loader2, Paperclip, SendHorizontal } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { TipTapEditor, TipTapEditorRef } from "@/components/tip-tap-editor";
@@ -17,6 +17,7 @@ import { AttachmentPreviews } from "./attachments-preview";
 export const PostEditor = () => {
   const { mutate, isPending } = useSubmitPostMutation();
   const editorRef = useRef<TipTapEditorRef>(null);
+  const [editorContent, setEditorContent] = useState("");
 
   const {
     startUpload,
@@ -45,6 +46,7 @@ export const PostEditor = () => {
       {
         onSuccess: () => {
           editorRef.current?.clearContent();
+          setEditorContent("");
           resetMediaUploads();
           toast.success("Post created successfully!");
         },
@@ -57,6 +59,10 @@ export const PostEditor = () => {
       .filter((item) => item.kind === "file")
       .map((item) => item.getAsFile()) as File[];
     startUpload(files);
+  };
+
+  const handleEditorChange = () => {
+    setEditorContent(editorRef.current?.getText() || "");
   };
 
   return (
@@ -72,9 +78,10 @@ export const PostEditor = () => {
                 isDragActive={isDragActive}
                 onPaste={onPaste}
                 disabled={isPending}
+                onUpdate={handleEditorChange}
               />
 
-              <input hidden className="sr-only" {...getInputProps} />
+              <input hidden className="sr-only" {...getInputProps()} />
             </div>
           </div>
           {!!attachments.length && (
@@ -97,7 +104,7 @@ export const PostEditor = () => {
           />
           <Button
             onClick={onSubmit}
-            disabled={!editorRef.current?.getText().trim() || isUploading}
+            disabled={!editorContent || isUploading}
             loading={isPending}
           >
             Post
