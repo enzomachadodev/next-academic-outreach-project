@@ -52,7 +52,7 @@ export const RegisterForm = ({ leadEmail }: RegisterFormProps) => {
     if (leadEmail) {
       form.setValue("email", leadEmail);
     }
-  }, [leadEmail]);
+  }, [form, leadEmail]);
 
   const onSubmit = async (values: RegisterSchema) => {
     setError("");
