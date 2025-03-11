@@ -1,16 +1,16 @@
 import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
 
-import { getUserDataSelect, UserData } from "../src/features/users/lib/types";
-
 const prisma = new PrismaClient();
 
-const posts: {
+type PostSeed = {
   content: string;
   comments: string[];
   images: string[];
   likes: number;
-}[] = [
+};
+
+const posts: PostSeed[] = [
   {
     content:
       "Just launched my handmade candle collection! They’re made with eco-friendly wax and scents inspired by nature. Any tips on reaching more customers?\n\n#SmallBusiness #Entrepreneur #Sustainable",
@@ -410,57 +410,62 @@ const posts: {
   },
 ];
 
-type UserSeed = UserData & { sex: "female" | "male" };
+function chunkPostsArray(array: PostSeed[], size: number) {
+  const result = [];
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
+}
 
 async function seed() {
-  const users: UserSeed[] = [];
+  await prisma.$disconnect();
 
-  for (let i = 0; i < 30; i++) {
+  const usersData = Array.from({ length: 20 }).map((_, i) => {
     const sex = i % 2 == 0 ? "female" : "male";
 
     const firstName = faker.person.firstName(sex);
     const lastName = faker.person.lastName(sex);
     const username = faker.internet.username({ firstName, lastName });
 
-    const user = await prisma.user.create({
-      data: {
-        username,
-        name: `${firstName} ${lastName}`,
-        email: faker.internet.email(),
-        bio: faker.lorem.sentence({ min: 10, max: 40 }),
-        image: faker.image.personPortrait({
-          sex,
-          size: 256,
-        }),
-      },
-      select: getUserDataSelect(),
-    });
+    return {
+      username,
+      name: `${firstName} ${lastName}`,
+      email: faker.internet.email(),
+      bio: faker.lorem.sentence({ min: 10, max: 40 }),
+      image: faker.image.personPortrait({
+        sex,
+        size: 256,
+      }),
+    };
+  });
 
-    users.push({ ...user, sex });
-  }
+  const createdUsers = await prisma.user.createManyAndReturn({
+    data: usersData,
+  });
 
-  const followPromises = [];
+  //   const followsData: { followerId: string; followingId: string }[] = [];
 
-  for (const follower of users) {
-    for (const following of users) {
-      if (follower.id !== following.id) {
-        followPromises.push(
-          prisma.follow.create({
-            data: {
-              followerId: follower.id,
-              followingId: following.id,
-            },
-          }),
-        );
-      }
-    }
-  }
+  //   for (const follower of createdUsers) {
+  //     for (const following of createdUsers) {
+  //       if (follower.id !== following.id) {
+  //         followsData.push({
+  //           followerId: follower.id,
+  //           followingId: following.id,
+  //         });
+  //       }
+  //     }
+  //   }
 
-  await Promise.all(followPromises);
+  //   await prisma.follow.createMany({
+  //     data: followsData,
+  //   });
 
-  await prisma.$transaction(async (prisma) => {
-    for (const { content, images, comments, likes } of posts) {
-      const randomUserPost = faker.helpers.arrayElement(users);
+  const postBatches = chunkPostsArray(posts, 5);
+
+  for (const batch of postBatches) {
+    for (const { content, images, comments, likes } of batch) {
+      const randomUserPost = faker.helpers.arrayElement(createdUsers);
 
       const post = await prisma.post.create({
         data: {
@@ -469,45 +474,40 @@ async function seed() {
         },
       });
 
-      await Promise.all(
-        images.map((image) =>
-          prisma.media.create({
-            data: {
-              postId: post.id,
-              url: image,
-              type: "IMAGE",
-            },
-          }),
-        ),
-      );
+      const imagesData: {
+        postId: string;
+        url: string;
+        type: "IMAGE" | "VIDEO";
+      }[] = images.map((image) => ({
+        postId: post.id,
+        url: image,
+        type: "IMAGE",
+      }));
 
-      await Promise.all(
-        Array.from({ length: likes }).map(async (_, i) => {
-          if (i < users.length) {
-            await prisma.like.create({
-              data: {
-                postId: post.id,
-                userId: users[i].id,
-              },
-            });
-          }
-        }),
-      );
+      await prisma.media.createMany({
+        data: imagesData,
+      });
 
-      await Promise.all(
-        comments.map((comment) => {
-          const randomUserComment = faker.helpers.arrayElement(users);
-          return prisma.comment.create({
-            data: {
-              content: comment,
-              postId: post.id,
-              userId: randomUserComment.id,
-            },
-          });
-        }),
-      );
+      const likesData = Array.from({
+        length: Math.min(likes, createdUsers.length),
+      }).map((_, i) => ({
+        postId: post.id,
+        userId: createdUsers[i].id,
+      }));
+
+      await prisma.like.createMany({
+        data: likesData,
+      });
+
+      await prisma.comment.createMany({
+        data: comments.map((comment) => ({
+          content: comment,
+          postId: post.id,
+          userId: faker.helpers.arrayElement(createdUsers).id,
+        })),
+      });
     }
-  });
+  }
 
   console.log("Seed concluído com sucesso!");
 }
