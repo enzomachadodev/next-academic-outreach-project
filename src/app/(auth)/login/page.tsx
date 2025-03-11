@@ -24,7 +24,7 @@ const LoginPage = () => {
           src="/login.jpg"
           alt="Login Background Image"
           fill
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          className="h-full w-full object-cover"
         />
       </div>
     </div>
