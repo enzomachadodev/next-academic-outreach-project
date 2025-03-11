@@ -29,22 +29,33 @@ export const fileRouter = {
     .onUploadComplete(async ({ metadata, file }) => {
       const oldAvatarUrl = metadata.user.image;
 
-      if (oldAvatarUrl) {
-        const key = oldAvatarUrl.split("/f/")[1];
+      if (oldAvatarUrl && oldAvatarUrl.includes("utfs.io")) {
+        try {
+          const key = oldAvatarUrl.split("/f/")[1];
 
-        await utapi.deleteFiles(key);
+          if (key) {
+            await utapi.deleteFiles(key);
+          }
+        } catch (error) {
+          console.error("Error deleting old avatar", error);
+        }
       }
 
-      await db.user.update({
-        where: {
-          id: metadata.user.id,
-        },
-        data: {
-          image: file.url,
-        },
-      });
+      try {
+        await db.user.update({
+          where: {
+            id: metadata.user.id,
+          },
+          data: {
+            image: file.url,
+          },
+        });
 
-      return { avatarUrl: file.url };
+        return { avatarUrl: file.url };
+      } catch (error) {
+        console.error("Error during avatar update: ", error);
+        throw new Error("An error occurred during avatar update");
+      }
     }),
 
   attachment: f({
