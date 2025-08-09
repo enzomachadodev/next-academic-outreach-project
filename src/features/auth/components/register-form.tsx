@@ -43,7 +43,7 @@ export const RegisterForm = ({ leadEmail }: RegisterFormProps) => {
       firstName: "",
       lastName: "",
       username: "",
-      email: "",
+      email: leadEmail ?? "",
       password: "",
     },
   });
@@ -52,7 +52,7 @@ export const RegisterForm = ({ leadEmail }: RegisterFormProps) => {
     if (leadEmail) {
       form.setValue("email", leadEmail);
     }
-  }, [form, leadEmail]);
+  }, [leadEmail, form.setValue]);
 
   const onSubmit = async (values: RegisterSchema) => {
     setError("");

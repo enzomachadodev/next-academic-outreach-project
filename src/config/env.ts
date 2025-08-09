@@ -5,9 +5,9 @@ const envSchema = z.object({
   APP_NAME: z.string().min(1),
   BASE_URL: z.string(),
   DATABASE_URL: z.string().url(),
-  BETTER_AUTH_SECRET: z.string().min(32),
+  BETTER_AUTH_SECRET: z.string().min(1),
   UPLOADTHING_TOKEN: z.string().min(1),
-  CRON_SECRET: z.string().min(16),
+  CRON_SECRET: z.string().min(1),
   GITHUB_CLIENT_ID: z.string(),
   GITHUB_CLIENT_SECRET: z.string(),
 });

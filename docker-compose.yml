@@ -1,9 +1,10 @@
 services:
   postgres:
-    container_name: conexao_dev_db
     image: postgres
+    container_name: grow_link_pg
     environment:
-      - POSTGRES_USER=enzomachadodev
-      - POSTGRES_PASSWORD=enzomachadodev
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: growlinkdb
     ports:
       - 5432:5432
